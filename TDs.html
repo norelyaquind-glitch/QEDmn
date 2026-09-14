@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QEDmn — TD Series</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --primary-color:#7b5fff;
+    --secondary-color:#ff7b00;
+    --bg-light:#f8f8f8;
+    --text-dark:#222;
+    --text-light:#7c7878;
+    --line:rgba(34,34,34,0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f);
+    color: var(--text-dark);
+  }
+
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 500; margin: 0; color: var(--text-dark); }
+  a { color: inherit; }
+
+  /* ---------- Checking / pending states (same card design as Lessons page) ---------- */
+  #checking {
+    text-align: center;
+    color: var(--text-light);
+    padding: 90px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .checking-card {
+    position: relative;
+    background: #fff;
+    max-width: 420px;
+    width: 100%;
+    padding: 38px 32px 30px;
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(75, 50, 184, 0.18);
+    overflow: hidden;
+  }
+
+  .checking-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  }
+
+  .checking-logo { height: 60px; width: auto; margin: 4px auto 20px; display: block; opacity: 0.92; }
+
+  .checking-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--primary-color), var(--secondary-color), var(--primary-color) 100%);
+    animation: spin 1s linear infinite;
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  #checkingMain { font-size: 14.5px; color: var(--text-dark); font-weight: 600; letter-spacing: 0.01em; margin: 0 0 20px; }
+
+  .quote-box {
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4px;
+    border-top: 1px solid var(--line);
+  }
+
+  .quote-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--primary-color);
+    opacity: 0.28;
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+
+  .quote-fade {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .quote-fade.visible { opacity: 1; transform: translateY(0); }
+
+  .quote-fade[dir="rtl"] {
+    font-style: normal;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 2;
+    color: var(--primary-color);
+  }
+
+  .checking-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(123,95,255,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 26px;
+  }
+
+  .checking-progress span {
+    display: block;
+    height: 100%;
+    width: 35%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 999px;
+    animation: progress-sweep 1.6s ease-in-out infinite;
+  }
+
+  @keyframes progress-sweep {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(380%); }
+  }
+
+  .pending-card {
+    background: var(--bg-light);
+    max-width: 480px;
+    margin: 100px auto 0;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(34,34,34,0.15);
+    text-align: center;
+  }
+  .pending-card h2 { font-size: 19px; margin-bottom: 10px; color: var(--text-dark); }
+  .pending-card p { color: var(--text-light); font-size: 14px; line-height: 1.6; margin: 0; }
+  .pending-card a { color: var(--primary-color); font-weight: 500; }
+
+  /* ---------- Header ---------- */
+  header {
+    background: white;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(34,34,34,0.08);
+  }
+
+  .logo-img { height: 60px; width: auto; display: block; }
+
+  .header-actions { display: flex; align-items: center; gap: 10px; }
+
+  #logoutBtn {
+    padding: 9px 18px;
+    background: #fff;
+    color: #ef4444;
+    border: 1.5px solid #ef4444;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  #logoutBtn:hover { background: #ef4444; color: #fff; }
+
+  /* ---------- Main / page head ---------- */
+  main { max-width: 980px; margin: 0 auto; padding: 48px 20px 96px; }
+
+  .page-head { margin-bottom: 40px; }
+  .page-head h1 { font-size: 2.2rem; color: var(--text-dark); }
+  .tagline { margin: 10px 0 0; font-size: 1.05rem; color: var(--text-light); }
+  .tagline .accent { color: var(--secondary-color); font-weight: 500; }
+
+  /* ---------- PW series cards ---------- */
+  .pw-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+  }
+
+  .pw-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-light);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(34,34,34,0.12);
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+
+  .pw-card:hover, .pw-card:focus-within, .pw-card.is-active {
+    transform: scale(1.045);
+    box-shadow: 0 22px 45px rgba(75, 50, 184, 0.28);
+    z-index: 2;
+  }
+
+  .pw-card:active { transform: scale(1.06); }
+
+  .pw-image {
+    position: relative;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pw-image .tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .pw-image .pw-number {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    color: #fff;
+    opacity: 0.95;
+    transition: transform 0.4s ease;
+  }
+
+  .pw-card:hover .pw-number { transform: scale(1.1) translateY(-2px); }
+
+  .pw-image--1 { background: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px, linear-gradient(155deg, #7b5fff, #5a3fcc); }
+  .pw-image--2 { background: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px, linear-gradient(155deg, #8f76ff, #6947f2); }
+  .pw-image--3 { background: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px, linear-gradient(155deg, #6947f2, #4b32b8); }
+  .pw-image--4 { background: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px, linear-gradient(155deg, #6c63ff, #3f2fa8); }
+  .pw-image--5 { background: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px, linear-gradient(155deg, #a084ff, #7b5fff); }
+
+  .pw-body { padding: 16px 16px 20px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; }
+  .pw-card h2 { font-size: 1rem; line-height: 1.3; }
+  .pw-card p { margin: 0; color: var(--text-light); font-size: 0.84rem; flex-grow: 1; }
+
+  .pw-card a.pdf-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px 7px 12px;
+    border: 1.5px solid var(--secondary-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .pw-card a.pdf-link:hover { background: var(--secondary-color); color: #fff; }
+  .pw-card a.pdf-link i { font-size: 0.75rem; }
+
+  /* ---------- Divider ---------- */
+  .section-divider { border: none; border-top: 1px solid var(--line); margin: 56px 0 40px; }
+
+  /* ---------- Corrections ---------- */
+  .corrections-head { margin-bottom: 20px; }
+  .corrections-head h2 { font-size: 1.4rem; }
+  .corrections-head p { margin: 6px 0 0; font-size: 0.85rem; color: var(--text-light); }
+
+  .corrections-card {
+    background: var(--bg-light);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(34,34,34,0.1);
+    padding: 8px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .corrections-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(34,34,34,0.16); }
+
+  .link-list { list-style: none; margin: 0; padding: 0; }
+  .link-list li { border-bottom: 1px solid var(--line); }
+  .link-list li:last-child { border-bottom: none; }
+
+  .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 8px;
+  }
+
+  .link-row .link-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .link-row .link-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .link-row .link-part {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .link-row .link-part.series {
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+  }
+  .link-row .link-part.series:hover { background: var(--primary-color); color: #fff; }
+
+  .link-row .link-part.solution {
+    border: 1.5px solid var(--secondary-color);
+    color: var(--secondary-color);
+    background: transparent;
+  }
+  .link-row .link-part.solution:hover { background: var(--secondary-color); color: #fff; }
+
+  .link-row .link-part i { flex-shrink: 0; font-size: 0.85rem; }
+  .h3{
+    color: var(--text-light);
+  }
+  @media (max-width: 780px) {
+    .td-row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    header { padding: 14px 18px; }
+    main { padding: 36px 16px 72px; }
+    .page-head h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="checking">
+  <div class="checking-card">
+    <img class="checking-logo" src="images/signature_icon_512px (1).png" alt="QEDmn logo">
+    <div class="checking-spinner"></div>
+    <p id="checkingMain">Checking your account...</p>
+    <div class="quote-box">
+      <span class="quote-mark">&#10078;</span>
+      <p id="checkingQuote" class="quote-fade"></p>
+    </div>
+    <div class="checking-progress"><span></span></div>
+  </div>
+</div>
+
+<div id="pending" style="display:none;">
+  <div class="pending-card">
+    <h2 id="pendingTitle">Payment not confirmed yet</h2>
+    <p id="pendingText">
+      We don't see a confirmed payment for your account yet.
+      If you already paid via BaridiMob or in person, please allow a little time for confirmation,
+      or make sure you've submitted the <a href="booking.html">booking form</a>.
+    </p>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
+
+  <header>
+    <img class="logo-img" src="images/signature_icon_512px (1).png" alt="QEDmn logo">
+    <div class="header-actions">
+      <a class="commonBtn" href="index.html">Back Home</a>
+      
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-head" data-aos="fade-right" data-aos-duration="800">
+      <h1>Your TD Series</h1>
+      <p class="tagline">Practice it. Check it. <span class="accent">Sign it: QED.</span></p>
+    </div>
+
+    <!--
+      PW SERIES BOXES — replace the placeholder title/description on each
+      card, and set the real link in each a.pdf-link href to the video
+      where you solve that series' exercises. Currently all 5 point to "#".
+      Send me the real titles + video links and I'll fill these in directly.
+    -->
+    <section id="pwList" class="pw-row">
+
+          <div class="pw-card" data-aos="fade-right" data-aos-duration="700">
+            <div class="pw-image pw-image--1">
+              <span class="tag">PW 1</span>
+              <span class="pw-number">01</span>
+            </div>
+            <div class="pw-body">
+              <h2>Logic & Set</h2>
+              <p>Short description here.</p>
+              <a class="pdf-link" href="https://drive.google.com/drive/folders/1QZkBwFq7726ewXefb5VvdqQGIkoDREnQ" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+            </div>
+          </div>
+
+          <div class="pw-card" data-aos="zoom-in" data-aos-duration="700">
+            <div class="pw-image pw-image--2">
+              <span class="tag">PW 2</span>
+              <span class="pw-number">02</span>
+            </div>
+            <div class="pw-body">
+              <h2>Functions</h2>
+              <p>Short description here.</p>
+              <a class="pdf-link" href="https://drive.google.com/drive/folders/1m_dJBfU4WJoE_DWTsaACpTeFC5J5qkI8" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+            </div>
+          </div>
+
+          <div class="pw-card" data-aos="zoom-in" data-aos-duration="700">
+            <div class="pw-image pw-image--3">
+              <span class="tag">PW 3</span>
+              <span class="pw-number">03</span>
+            </div>
+            <div class="pw-body">
+              <h2> Binary Relations</h2>
+              <p>Short description here.</p>
+              <a class="pdf-link" href="https://drive.google.com/drive/folders/1n2-fXPRTirOFH0BfwkbbWVDMYekwZGAM" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+            </div>
+          </div>
+
+          <div class="pw-card" data-aos="zoom-in" data-aos-duration="700">
+            <div class="pw-image pw-image--4">
+              <span class="tag">PW 4</span>
+              <span class="pw-number">04</span>
+            </div>
+            <div class="pw-body">
+              <h2>Algebraic Structures</h2>
+              <p>Short description here.</p>
+              <a class="pdf-link" href="https://drive.google.com/drive/folders/1UDB9RX5S4PDZDmraCYaWFTGoUYpal1CJ" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+            </div>
+          </div>
+
+          <div class="pw-card" data-aos="fade-left" data-aos-duration="700">
+            <div class="pw-image pw-image--5">
+              <span class="tag">PW 5</span>
+              <span class="pw-number">05</span>
+            </div>
+            <div class="pw-body">
+              <h2>Practice Series 5</h2>
+              <p>Short description here.</p>
+              <a class="pdf-link" href="https://drive.google.com/drive/folders/14nNBiK2yaKeKVcS2mtXdQF9hpLiYsclB" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+            </div>
+          </div>
+
+    </section>
+
+    <hr class="section-divider">
+
+    <!--
+      CORRECTIONS — one row per PW series, split into two parts:
+      "Series" (the exercise sheet, no solution) and "Solution" (the correction PDF).
+      Replace each href="#" with the real link (Drive share link,
+      or a relative path like "pdfs/pw1-series.pdf" / "pdfs/pw1-solution.pdf").
+    -->
+    <section class="corrections">
+      <div class="corrections-head" data-aos="fade-right" data-aos-duration="700">
+        <h2>Corrections</h2>
+        <p>Full worked solutions for each practice series</p>
+      </div>
+
+      <div class="corrections-card" data-aos="fade-left" data-aos-duration="700">
+        <ul class="link-list">
+          <li class="link-row">
+            <span class="link-label">Logic & Setes</span> 
+            <div class="link-actions">
+              <a class="link-part series" href="pdfs/serie1-Logique.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Series</a>
+              <a class="link-part solution" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Solution</a>
+            </div>
+          </li>
+          <li class="link-row">
+            <span class="link-label">Functions</span>
+            <div class="link-actions">
+              <a class="link-part series" href="pdfs/serie2 Applications.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Series</a>
+              <a class="link-part solution" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Solution</a>
+            </div>
+          </li>
+          <li class="link-row">
+            <span class="link-label">Relations</span> 
+            <div class="link-actions">
+              <a class="link-part series" href="pdfs/series3.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Series</a>
+              <a class="link-part solution" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Solution</a>
+            </div>
+          </li>
+          <li class="link-row">
+            <span class="link-label">Algebraic Structures</span>
+            <div class="link-actions">
+              <a class="link-part series" href="pdfs/SERIES4.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Series</a>
+              <a class="link-part solution" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Solution</a>
+            </div>
+          </li>
+          <li class="link-row">
+            <span class="link-label">Polynomials R_Fractions</span>
+            <div class="link-actions">
+              <a class="link-part series" href="pdfs/serie5-Anneau des polynômes.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Series</a>
+              <a class="link-part solution" href="#" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>Solution</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+  // Paste the /exec URL from your Apps Script deployment here
+  const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwmdgmmQV6E6XDN5TexCcAA759NviDqz-bwEonFgYyNivlejuW6PMgy1uJtB6bi2NOLBw/exec";
+
+  // Tiers allowed on THIS page
+  const ALLOWED_TIERS = ["standard", "premium"];
+
+  // ---------- Rotating quotes shown while "Checking your account..." ----------
+  const CHECKING_DUAS = [
+    { text: "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً", dir: "rtl", type: "dua" },
+    { text: "رب اشرح لي صدري ويسر لي أمري", dir: "rtl", type: "dua" },
+    { text: "اللهم اجعل هذا العلم حجة لي لا علي، ويسر لي فهمه وارزقني فهم الأنبياء", dir: "rtl", type: "dua" },
+    { text: "من جد وجد، ومن زرع حصد", dir: "rtl", type: "dua" }
+  ];
+
+  const CHECKING_QUOTES_EN = [
+    { text: "Patience is bitter, but its fruit is sweet.", dir: "ltr", type: "quote" },
+    { text: "The expert in anything was once a beginner.", dir: "ltr", type: "quote" },
+    { text: "Mathematics is not about numbers, equations, or algorithms: it is about understanding.", dir: "ltr", type: "quote" }
+  ];
+
+  // Duas first, then quotes — fixed order, not mixed randomly.
+  const CHECKING_QUOTES = [...CHECKING_DUAS, ...CHECKING_QUOTES_EN];
+
+  let quoteIndex = 0;
+  let quoteTimer = null;
+  const quoteEl = document.getElementById("checkingQuote");
+
+  function showNextQuote() {
+    if (!quoteEl) return;
+    quoteEl.classList.remove("visible");
+    window.setTimeout(() => {
+      const q = CHECKING_QUOTES[quoteIndex % CHECKING_QUOTES.length];
+      quoteEl.textContent = q.text;
+      quoteEl.setAttribute("dir", q.dir);
+      quoteEl.classList.add("visible");
+      quoteIndex++;
+    }, 350);
+  }
+
+  function startQuoteRotation() {
+    showNextQuote();
+    quoteTimer = window.setInterval(showNextQuote, 3200);
+  }
+
+  function stopQuoteRotation() {
+    if (quoteTimer) {
+      window.clearInterval(quoteTimer);
+      quoteTimer = null;
+    }
+  }
+
+  // ---------- Session cache so the check only runs once per browser visit ----------
+  const TIER_CACHE_KEY = "qedmn_verified_tier";
+
+  function getCachedTier(email) {
+    try {
+      const raw = sessionStorage.getItem(TIER_CACHE_KEY);
+      if (!raw) return null;
+      const cached = JSON.parse(raw);
+      return cached.email === email && cached.tier ? cached.tier : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function cacheTier(email, tier) {
+    try {
+      sessionStorage.setItem(TIER_CACHE_KEY, JSON.stringify({ email, tier }));
+    } catch (e) {
+      /* sessionStorage unavailable — fine, it just re-checks next time */
+    }
+  }
+
+  function showForTier(tier) {
+    document.getElementById("checking").style.display = "none";
+
+    if (tier && ALLOWED_TIERS.includes(tier)) {
+      document.getElementById("app").style.display = "block";
+      if (window.AOS) {
+        window.AOS.init({ duration: 700, once: true, offset: 60 });
+        window.setTimeout(() => window.AOS.refresh(), 50);
+      }
+    } else if (tier) {
+      // Approved (e.g. Basic), but their plan doesn't include TDs
+      document.getElementById("pendingTitle").textContent = "Not included in your plan";
+      document.getElementById("pendingText").innerHTML =
+        "TD Series is available on the Standard and Premium plans. Contact me if you'd like to upgrade.";
+      document.getElementById("pending").style.display = "block";
+    } else {
+      // No confirmed payment at all
+      document.getElementById("pending").style.display = "block";
+    }
+  }
+
+  startQuoteRotation();
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+  stopQuoteRotation();
+  const redirectTarget = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+  window.location.href = "access.html?redirect=" + redirectTarget;
+  return;
+}
+
+    const cachedTier = getCachedTier(user.email);
+    if (cachedTier) {
+      stopQuoteRotation();
+      showForTier(cachedTier);
+      return;
+    }
+
+    try {
+      const url = `${CONTENT_ENDPOINT}?email=${encodeURIComponent(user.email)}&t=${Date.now()}`;
+      const response = await fetch(url, { cache: "no-store" });
+      const data = await response.json();
+
+      stopQuoteRotation();
+
+      if (data.tier) {
+        cacheTier(user.email, data.tier);
+      }
+      showForTier(data.tier);
+    } catch (error) {
+      stopQuoteRotation();
+      document.getElementById("checking").textContent =
+        "Couldn't check your account status. Please refresh the page.";
+    }
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "access.html";
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="custom.js"></script>
+</body>
+</html>

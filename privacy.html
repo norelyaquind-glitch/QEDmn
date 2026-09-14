@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — QEDmn</title>
+<link rel="stylesheet" href="style.css">
+<style>
+/* QEDmn — Legal pages stylesheet (Terms of Service / Privacy Policy) */
+
+:root {
+  --ink: #221c35;
+  --ink-soft: #4a4460;
+  --violet: #6c4fd1;
+  --violet-deep: #4d38a3;
+  --violet-tint: #f2eefc;
+  --paper: #fffdfb;
+  --line: #e4ddf5;
+  --amber: #e08a2c;
+  --content-width: 700px;
+  --font-serif: "Source Serif Pro", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #a196ef1f, #9e92f50f);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Info bar (logo + slogan / back-to-home / description) ---------- */
+
+.info-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 40px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 2px 12px rgba(76, 56, 163, 0.06);
+}
+
+.info-bar__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info-bar__logo {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.info-bar__logo img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+.info-bar__slogan {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.info-bar__home {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--violet-deep);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 20px;
+  white-space: nowrap;
+}
+
+.info-bar__home:hover {
+  border-color: var(--violet);
+  background: var(--violet-tint);
+}
+
+.info-bar__description {
+  justify-self: end;
+  text-align: left;
+  font-size: 14px;
+  color: var(--ink-soft);
+  max-width: 320px;
+  margin: 0;
+}
+
+@media (max-width: 780px) {
+  .info-bar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .info-bar__home {
+    order: 2;
+  }
+  .info-bar__description {
+    order: 3;
+    justify-self: center;
+    text-align: center;
+    max-width: none;
+  }
+  .info-bar__brand {
+    order: 1;
+    align-items: center;
+  }
+}
+
+/* ---------- Header ---------- */
+
+.legal-header {
+  max-width: var(--content-width);
+  margin: 56px auto 0;
+  padding: 0 24px;
+}
+
+.legal-header__eyebrow {
+  color: var(--amber);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0 0 6px;
+}
+
+.legal-header h1 {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  line-height: 1.15;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+
+.legal-header__updated {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 28px;
+}
+
+/* ---------- Notice callout ---------- */
+
+.legal-notice {
+  max-width: var(--content-width);
+  margin: 0 auto 8px;
+  padding: 16px 24px;
+}
+
+.legal-notice__box {
+  background: var(--violet-tint);
+  border-left: 3px solid var(--violet);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+.legal-notice__box strong {
+  color: var(--violet-deep);
+}
+
+/* ---------- Body content ---------- */
+
+.legal-content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 24px 24px 100px;
+}
+
+.legal-content section {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.legal-content section:last-of-type {
+  border-bottom: none;
+}
+
+.legal-content h2 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  color: var(--ink);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.legal-content h2 .num {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--violet);
+  min-width: 20px;
+}
+
+.legal-content p {
+  margin: 0 0 14px;
+  color: var(--ink);
+  max-width: 68ch;
+}
+
+.legal-content ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+  max-width: 66ch;
+}
+
+.legal-content li ul {
+  margin-top: 8px;
+}
+
+.legal-content a {
+  color: var(--violet-deep);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 2px;
+}
+
+.legal-content a:hover {
+  text-decoration-color: var(--violet);
+}
+
+.legal-content strong {
+  color: var(--ink);
+}
+
+.legal-content .fill-in {
+  background: #fdf3e4;
+  border-radius: 4px;
+  padding: 0 4px;
+  color: #8a5a12;
+}
+
+/* ---------- Footer ---------- */
+
+.legal-footer {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 24px 64px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .info-bar {
+    padding: 18px 20px;
+  }
+  .legal-header {
+    margin-top: 36px;
+  }
+  .legal-header h1 {
+    font-size: 30px;
+  }
+  .legal-content h2 {
+    font-size: 19px;
+  }
+  body {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<header class="info-bar">
+  <div class="info-bar__brand">
+    <a class="info-bar__logo" href="index.html"><img src="images/signature_icon_512px (1).png" alt="QEDmn logo"></a>
+    <p class="info-bar__slogan">Watch it. Solve it. Sign it: QED.</p>
+  </div>
+  <a class="info-bar__home" href="index.html">← Back to home</a>
+  <p class="info-bar__description">QEDmn is an e-learning platform helping university students in the ST stream master algebra through clear video lessons.</p>
+</header>
+
+<header class="legal-header">
+  <p class="legal-header__eyebrow">Legal</p>
+  <h1>Privacy Policy</h1>
+  <p class="legal-header__updated">Last updated: <span class="fill-in">September 10th, 2026</span></p>
+</header>
+
+<!-- Internal note (not shown to users):
+<div class="legal-notice">
+  <div class="legal-notice__box">
+    <strong>Note:</strong> This template is a starting point, not legal advice. Before publishing, have it reviewed by a lawyer familiar with Algerian Law n° 18-07 on the protection of individuals in the processing of personal data.
+  </div>
+</div>
+-->
+
+<main class="legal-content">
+
+  <section id="intro">
+    <h2><span class="num">1</span> Introduction</h2>
+    <p>QEDmn ("we," "us," "our") respects your privacy. This Privacy Policy explains what personal information we collect, how we use it, and your rights regarding that information.</p>
+  </section>
+
+  <section id="info-collected">
+    <h2><span class="num">2</span> Information We Collect</h2>
+    <p>When you register or use QEDmn, we collect:</p>
+    <ul>
+      <li><strong>Account information:</strong> full name, email address, phone number.</li>
+      <li><strong>Payment information:</strong>
+        <ul>
+          <li>For <strong>BaridiMob transfers</strong>: transaction reference/confirmation details you provide to verify payment. We do not store your BaridiMob PIN or full account credentials.</li>
+          <li>For <strong>in-person cash payments</strong>: the amount paid and confirmation of receipt; no financial account details are collected in this case.</li>
+        </ul>
+      </li>
+      <li><strong>Usage data:</strong> which courses/videos you access, progress, and basic technical data (e.g., device/browser type) to keep the platform working properly.</li>
+    </ul>
+  </section>
+
+  <section id="how-we-use">
+    <h2><span class="num">3</span> How We Use Your Information</h2>
+    <p>We use your information to:</p>
+    <ul>
+      <li>Create and manage your account.</li>
+      <li>Grant access to purchased courses and track your progress.</li>
+      <li>Confirm and process payments (including verifying BaridiMob transfers or in-person cash payments).</li>
+      <li>Communicate with you about your account, courses, or payment confirmations.</li>
+      <li>Improve our platform and course content.</li>
+      <li>Comply with legal obligations under Algerian law.</li>
+    </ul>
+    <p>We do <strong>not</strong> sell your personal information to third parties.</p>
+  </section>
+
+  <section id="minors">
+    <h2><span class="num">4</span> Minors' Data</h2>
+    <p>QEDmn is used by university students (ST stream), some of whom may be under 18. If you are under 18:</p>
+    <ul>
+      <li>We recommend a parent or legal guardian review this Privacy Policy with you.</li>
+      <li>Parents/guardians may contact us at any time to review, correct, or request deletion of their child's information.</li>
+      <li>We collect only the information necessary to provide the course (name, email, phone number, payment confirmation) and do not knowingly collect more than needed.</li>
+    </ul>
+  </section>
+
+  <section id="meetings">
+    <h2><span class="num">5</span> In-Person Payment Meetings</h2>
+    <p>For cash payments, meetings take place exclusively on the ENP (École Nationale Polytechnique, Algiers) campus at a scheduled time. QEDmn facilitates the arrangement, but the meeting itself takes place outside our platform. If you are under 18, we recommend informing a parent or guardian of the meeting details in advance.</p>
+  </section>
+
+  <section id="sharing">
+    <h2><span class="num">6</span> Data Sharing</h2>
+    <p>We may share your information with:</p>
+    <ul>
+      <li>Service providers who help us operate the platform (e.g., video hosting, email services), bound by confidentiality obligations.</li>
+      <li>Authorities, if required by Algerian law or a valid legal request.</li>
+    </ul>
+    <p>We do not share your data with advertisers or unrelated third parties.</p>
+  </section>
+
+  <section id="storage">
+    <h2><span class="num">7</span> Data Storage &amp; Security</h2>
+    <ul>
+      <li>We take reasonable technical and organizational measures to protect your information from unauthorized access, loss, or misuse.</li>
+      <li>Your data is stored for as long as your account is active, or as needed to comply with legal/tax obligations (e.g., payment records).</li>
+    </ul>
+  </section>
+
+  <section id="rights">
+    <h2><span class="num">8</span> Your Rights</h2>
+    <p>Under Algerian data protection law, you (or your parent/guardian, if you are under 18) have the right to:</p>
+    <ul>
+      <li>Access the personal data we hold about you.</li>
+      <li>Request correction of inaccurate data.</li>
+      <li>Request deletion of your data, subject to legal retention requirements (e.g., payment records).</li>
+      <li>Object to certain uses of your data.</li>
+    </ul>
+    <p>To exercise these rights, contact us at <strong class="fill-in">qedmnalgebra@gmail.com</strong>.</p>
+  </section>
+
+  <section id="changes">
+    <h2><span class="num">9</span> Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. We will post the updated version with a new "Last updated" date.</p>
+  </section>
+
+  <section id="contact">
+    <h2><span class="num">10</span> Contact Us</h2>
+    <p>Questions about this Privacy Policy or your data? Contact us at: <strong class="fill-in">qedmnalgebra@gmail.com</strong></p>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="images/signature_icon_512px (1).png" alt="QEDMN logo">
+    </div>
+    <div >
+        <h3 >
+             إنـمَا أنَا بَشَرٌ أُخْطِئُ وَأُصِيبُ، فَإنْ أَصَبْتُ فَمِنَ اللَّهِ، وَإِنْ أَخْطَأْتُ فَمِنْ نَفْسِي
+        </h3>
+    </div>
+    <div class="footer-socials">
+
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 2 .25 2.7.5.7.28 1.3.65 1.9 1.25.6.6.97 1.2 1.25 1.9.25.7.44 1.5.5 2.7.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 2-.5 2.7-.28.7-.65 1.3-1.25 1.9-.6.6-1.2.97-1.9 1.25-.7.25-1.5.44-2.7.5-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-2-.25-2.7-.5-.7-.28-1.3-.65-1.9-1.25-.6-.6-.97-1.2-1.25-1.9-.25-.7-.44-1.5-.5-2.7C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-2 .5-2.7.28-.7.65-1.3 1.25-1.9.6-.6 1.2-.97 1.9-1.25.7-.25 1.5-.44 2.7-.5C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.15 0-3.52 0-4.77.07-1 .05-1.6.2-1.97.34-.5.2-.86.42-1.23.8-.38.37-.6.73-.8 1.23-.14.37-.3.96-.34 1.97C2.8 8.48 2.8 8.85 2.8 12s0 3.52.07 4.77c.05 1 .2 1.6.34 1.97.2.5.42.86.8 1.23.37.38.73.6 1.23.8.37.14.96.3 1.97.34 1.25.06 1.62.07 4.77.07s3.52 0 4.77-.07c1-.05 1.6-.2 1.97-.34.5-.2.86-.42 1.23-.8.38-.37.6-.73.8-1.23.14-.37.3-.96.34-1.97.06-1.25.07-1.62.07-4.77s0-3.52-.07-4.77c-.05-1-.2-1.6-.34-1.97-.2-.5-.42-.86-.8-1.23-.37-.38-.73-.6-1.23-.8-.37-.14-.96-.3-1.97-.34C15.52 4 15.15 4 12 4Zm0 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 1.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Zm4.7-2a1.05 1.05 0 1 1 0 2.1 1.05 1.05 0 0 1 0-2.1Z"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.4 20.4h-3.5v-5.5c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.6H9.5V9h3.4v1.6h.05c.5-.9 1.6-1.8 3.3-1.8 3.5 0 4.15 2.3 4.15 5.3v6.3ZM5.3 7.4a2 2 0 1 1 0-4 2 2 0 0 1 0 4ZM7 20.4H3.6V9H7v11.4Z"/></svg></a>
+      <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M21.9 4.3 18.7 20c-.2 1-.9 1.2-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9L18 7.2c.4-.4-.1-.6-.6-.2L7.2 13.6l-4.7-1.5c-1-.3-1-1 .2-1.5L20.6 3.2c.8-.3 1.6.2 1.3 1.1Z"/></svg></a>
+    </div>
+  </div>
+
+  <div class="footer-mid-wrap">
+    <!-- <div class="footer-mid">
+      <div>
+        <h3>Got feedback?</h3>
+        <p>Tell us what's working, what's not, or what you'd love to see next.</p>
+      </div>
+      <form class="footer-signup" onsubmit="return false;">
+        <input type="email" placeholder="Your feedback" required>
+        <button type="submit" >Send</button>
+      </form>
+    </div> -->
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 QEDMN. All rights reserved.</span>
+    <div>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

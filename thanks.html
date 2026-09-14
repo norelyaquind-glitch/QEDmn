@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thank You</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family :'Poppins' ,sans-serif;
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+  .card{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow:0 4px 20px  rgba(0, 0, 0, 0.08);
+    padding: 30px 20px;
+    width: 380px;
+    transform : 0.3s ease-in-out ;
+    box-shadow : 0.3s ease ;
+    
+    
+}
+.card:hover{
+    transform:scale(1.05) ;
+    box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
+}
+  .check {
+    font-size: 44px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  h1 { font-size: 22px; margin: 0 0 12px; color:black; 
+  text-align: center;}
+   .QEDmn{
+    color: var(--secondary-color);
+  } 
+  
+  p {
+    color: #555;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+  a {
+    
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+.home{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 420px) {
+  .card { width: 100%; }
+}
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="card" data-aos="zoom-in" >
+  <div class="check"><img src="images/purple_verified_badge.png" alt="" width="80px" ></div>
+  <h1>Thank you for choosing <br><span class="QEDmn"><h3>QEDmn</h3></span>  </h1>
+  <p>
+    Your booking has been received. Your login will be confirmed within
+    a few minutes to about an hour .
+  </p>
+  <a href="index.html" class="home"><button class="commonBtn" >Back to homepage</button></a>
+</div>
+<!-- AOS jS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- custom js -->
+    <script src="custom.js"></script>
+    <script>
+      AOS.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QEDmn — Your Lessons</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --primary-color:#7b5fff;
+    --secondary-color:#ff7b00;
+    --bg-light:#f8f8f8;
+    --text-dark:#222;
+    --text-light:#7c7878;
+    --line:rgba(34,34,34,0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins' ,sans-serif;
+    margin: 0;
+    min-height: 100vh;
+     background: linear-gradient(180deg , #a196ef1f , #9e92f50f);
+    color: var(--text-dark);
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-dark);
+  }
+
+  a { color: inherit; }
+
+  /* ---------- Checking / pending states ---------- */
+  #checking {
+    text-align: center;
+    color: var(--text-light);
+    padding: 90px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .checking-card {
+    position: relative;
+    background: #fff;
+    max-width: 420px;
+    width: 100%;
+    padding: 38px 32px 30px;
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(75, 50, 184, 0.18);
+    overflow: hidden;
+  }
+
+  .checking-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  }
+
+  .checking-logo {
+    height: 60px;
+    width: auto;
+    margin: 4px auto 20px;
+    display: block;
+    opacity: 0.92;
+  }
+
+  .checking-spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--primary-color), var(--secondary-color), var(--primary-color) 100%);
+    animation: spin 1s linear infinite;
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  #checkingMain {
+    font-size: 14.5px;
+    color: var(--text-dark);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin: 0 0 20px;
+  }
+
+  .quote-box {
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4px;
+    border-top: 1px solid var(--line);
+  }
+
+  .quote-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--primary-color);
+    opacity: 0.28;
+    margin-top: 16px;
+    margin-bottom: 4px;
+  }
+
+  .quote-fade {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    font-style: italic;
+    color: var(--text-light);
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .quote-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .quote-fade[dir="rtl"] {
+    font-style: normal;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 2;
+    color: var(--primary-color);
+  }
+
+  .checking-progress {
+    width: 100%;
+    height: 4px;
+    background: rgba(123,95,255,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 26px;
+  }
+
+  .checking-progress span {
+    display: block;
+    height: 100%;
+    width: 35%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 999px;
+    animation: progress-sweep 1.6s ease-in-out infinite;
+  }
+
+  @keyframes progress-sweep {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(380%); }
+  }
+
+  .pending-card {
+    background: var(--bg-light);
+    max-width: 480px;
+    margin: 100px auto 0;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(34,34,34,0.15);
+    text-align: center;
+  }
+  .pending-card h2 { font-size: 19px; margin-bottom: 10px; color: var(--text-dark); }
+  .pending-card p { color: var(--text-light); font-size: 14px; line-height: 1.6; margin: 0; }
+  .pending-card a { color: var(--primary-color); font-weight: 500; }
+
+  /* ---------- Header ---------- */
+  header {
+    background: white;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(34,34,34,0.08);
+  }
+
+  .logo-img {
+    height: 60px;
+    width: auto;
+    display: block;
+  }
+
+ 
+
+  /* ---------- Main / page head ---------- */
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 48px 20px 96px;
+  }
+
+  .page-head {
+    margin-bottom: 40px;
+  }
+
+  .page-head h1 {
+    font-size: 2.2rem;
+    color: var(--text-dark);
+  }
+
+  .tagline {
+    margin: 10px 0 0;
+    font-size: 1.05rem;
+    color: var(--text-light);
+  }
+
+  .tagline .accent {
+    color: var(--secondary-color);
+    font-weight: 500;
+  }
+
+  /* ---------- Lesson cards (horizontal row) ---------- */
+  .lessons-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+  }
+
+  .lesson {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-light);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(34,34,34,0.12);
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  }
+
+  .lesson:hover,
+  .lesson:focus-within,
+  .lesson.is-active {
+    transform: scale(1.045);
+    box-shadow: 0 22px 45px rgba(75, 50, 184, 0.28);
+    z-index: 2;
+  }
+
+  .lesson:active {
+    transform: scale(1.06);
+  }
+
+  /* ---- Lesson visual: gradient + dot texture + line-art icon + pill tag ---- */
+  .lesson-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lesson-image .tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .lesson-image svg {
+    width: 54%;
+    height: 54%;
+    position: relative;
+    transition: transform 0.4s ease;
+  }
+
+  .lesson:hover .lesson-image svg {
+    transform: scale(1.08) translateY(-2px);
+  }
+
+  .lesson-image--1 {
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px,
+      linear-gradient(155deg, #7b5fff, #5a3fcc);
+  }
+  .lesson-image--2 {
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px,
+      linear-gradient(155deg, #8f76ff, #6947f2);
+  }
+  .lesson-image--3 {
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px,
+      linear-gradient(155deg, #6947f2, #4b32b8);
+  }
+  .lesson-image--4 {
+    background:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.18) 1px, transparent 0) 0 0/16px 16px,
+      linear-gradient(155deg, #6c63ff, #3f2fa8);
+  }
+
+  .lesson-body {
+    padding: 18px 18px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+  }
+
+  .lesson h2 { font-size: 1.05rem; line-height: 1.3; }
+  .lesson p { margin: 0; color: var(--text-light); font-size: 0.88rem; flex-grow: 1; }
+
+  /* ---- Compact "Watch Lesson" link (deliberately NOT .commonBtn — that class runs large) ---- */
+  .lesson a.watch-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px 7px 12px;
+    border: 1.5px solid var(--secondary-color);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .lesson a.watch-link:hover { background: var(--secondary-color); color: #fff; }
+  .lesson a.watch-link svg { width: 10px; height: 10px; fill: currentColor; }
+
+  /* ---------- Divider between the lesson row and the course library ---------- */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 56px 0 40px;
+  }
+
+  /* ---------- Course library: 3 vertical link columns ---------- */
+  .course-library { margin-top: 0; }
+
+  .columns-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .columns-head h2 { font-size: 1.4rem; }
+  .columns-head p { margin: 0; font-size: 0.85rem; color: var(--text-light); }
+
+  .columns-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .course-column {
+    background: var(--bg-light);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(34,34,34,0.1);
+    padding: 20px 20px 12px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .course-column:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(34,34,34,0.16);
+  }
+
+  .course-column h3 {
+    font-size: 0.98rem;
+    padding-bottom: 12px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+    color: var(--primary-color);
+  }
+
+  .link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .link-list li + li { margin-top: 2px; }
+
+  .link-list a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 8px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 0.86rem;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .link-list a:hover { background: rgba(123,95,255,0.1); color: var(--primary-color); }
+
+  .link-list a i {
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.85rem;
+  }
+  .link-list a:hover i { color: var(--primary-color); }
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 30px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 4px;
+    transition: gap 0.2s ease, opacity 0.2s ease;
+  }
+  .back-link:hover {
+    gap: 10px;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 720px) {
+    .columns-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 560px) {
+    header { padding: 14px 18px; }
+    main { padding: 36px 16px 72px; }
+    .page-head h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="checking">
+  <div class="checking-card">
+    <img class="checking-logo" src="images/signature_icon_512px (1).png" alt="QEDmn logo">
+    <div class="checking-spinner"></div>
+    <p id="checkingMain">Checking your account...</p>
+    <div class="quote-box">
+      <span class="quote-mark">&#10078;</span>
+      <p id="checkingQuote" class="quote-fade"></p>
+    </div>
+    <div class="checking-progress"><span></span></div>
+  </div>
+</div>
+
+<div id="pending" style="display:none;">
+  <div class="pending-card">
+    <h2 id="pendingTitle">Payment not confirmed yet</h2>
+    <p id="pendingText">
+      We don't see a confirmed payment for your account yet.
+      If you already paid via BaridiMob or in person, please allow a little time for confirmation,
+      or make sure you've submitted the <a href="booking.html">booking form</a>.
+    </p>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
+
+  <header>
+    <img class="logo-img" src="images/signature_icon_512px (1).png" alt="QEDmn logo">
+    <a class="commonBtn" href="index.html">
+      Back Home
+    </a>
+  </header>
+
+  <main>
+
+    <div class="page-head" data-aos="fade-right" data-aos-duration="800">
+      <h1>Your Lessons</h1>
+      <p class="tagline">Watch it. Solve it. <span class="accent">Sign it: QED.</span></p>
+    </div>
+
+    <!--
+      Add / edit lessons here directly in HTML.
+      Each lesson is one .lesson block, inside the .lessons-row grid — it will
+      automatically wrap into rows as you add more (currently 4).
+      Replace the href in the "Watch Lesson" link with your Google Drive video link.
+      To add a new lesson, copy one whole <div class="lesson">...</div> block and edit it.
+      Each lesson now has ITS OWN distinct icon (no duplicates) and its own
+      data-aos animation (alternating fade-right / fade-left / zoom-in) so the
+      row animates in with some variety instead of everything doing the same thing.
+      Lesson 4 (Polynomials) now has its own icon and title — only its
+      "Watch Lesson" href is still a placeholder copied from Lesson 2,
+      swap in the real Google Drive link when it's ready.
+    -->
+    <section id="lessonList" class="lessons-row">
+
+      <div class="lesson" data-aos="fade-right" data-aos-duration="700">
+        <div class="lesson-image lesson-image--1">
+          <span class="tag">Chapter 1</span>
+          <!-- Logic icon: quantifier & connective symbols (∀ ∃ ¬ ∧) laid out on a baseline -->
+          <svg viewBox="0 0 100 100" fill="none" stroke="none">
+            <text x="24" y="46" font-family="Fraunces, serif" font-size="34" fill="#fff" opacity="0.95">&#8704;</text>
+            <text x="56" y="46" font-family="Fraunces, serif" font-size="34" fill="#fff" opacity="0.95">&#8707;</text>
+            <text x="20" y="82" font-family="Fraunces, serif" font-size="30" fill="#fff" opacity="0.9">&#172;</text>
+            <text x="50" y="82" font-family="Fraunces, serif" font-size="30" fill="#fff" opacity="0.9">&#8743;</text>
+            <text x="76" y="82" font-family="Fraunces, serif" font-size="30" fill="#fff" opacity="0.9">&#8744;</text>
+          </svg>
+        </div>
+        <div class="lesson-body">
+          <h2>Mathematical Logic</h2>
+          <p>Introduction to the basics.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1jjiuYSC6vco9o7Vp3DVpKdP-jldvck1e?usp=drive_link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
+            Watch Lesson
+          </a>
+        </div>
+      </div>
+
+
+      <div class="lesson" data-aos="zoom-in" data-aos-duration="700">
+        <div class="lesson-image lesson-image--2">
+          <span class="tag">Chapter 2</span>
+          <!-- Sets icon: classic Venn diagram, two overlapping circles -->
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5">
+            <circle cx="38" cy="50" r="26" opacity="0.9"/>
+            <circle cx="62" cy="50" r="26" opacity="0.9"/>
+          </svg>
+        </div>
+        <div class="lesson-body">
+          <h2>Sets &amp; Applications</h2>
+          <p>Core concepts explained.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1iQpPUdWAB3uUES2GPcvUkkQ6Hr-Ycw2j?usp=drive_link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
+            Watch Lesson
+          </a>
+        </div>
+      </div>
+
+      <div class="lesson" data-aos="zoom-in" data-aos-duration="700">
+        <div class="lesson-image lesson-image--3">
+          <span class="tag">Chapter 3</span>
+          <!-- Algebraic structures icon: matrix / grid of nodes -->
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M30 20 L22 20 L22 80 L30 80 M70 20 L78 20 L78 80 L70 80"/>
+            <circle cx="38" cy="38" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="50" cy="38" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="62" cy="38" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="38" cy="50" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="50" cy="50" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="62" cy="50" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="38" cy="62" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="50" cy="62" r="2.4" fill="#fff" stroke="none"/>
+            <circle cx="62" cy="62" r="2.4" fill="#fff" stroke="none"/>
+          </svg>
+        </div>
+        <div class="lesson-body">
+          <h2>Algebraic Structures</h2>
+          <p>A hands-on walkthrough.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1BgUcfx4GYZo2TyRLZA5Y2JvJi5qG4kKZ?usp=drive_link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
+            Watch Lesson
+          </a>
+        </div>
+      </div>
+
+      <div class="lesson" data-aos="fade-left" data-aos-duration="700">
+        <div class="lesson-image lesson-image--4">
+          <span class="tag">Chapter 4</span>
+          <!-- Polynomials icon: axes + a cubic-style curve with its roots marked on the x-axis -->
+          <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 82 L88 82 M14 82 L14 14" opacity="0.9"/>
+            <path d="M20 40 C 30 82, 40 20, 50 55 C 58 78, 70 30, 84 20" opacity="0.95"/>
+            <circle cx="28" cy="82" r="2.6" fill="#fff" stroke="none"/>
+            <circle cx="50" cy="82" r="2.6" fill="#fff" stroke="none"/>
+            <circle cx="73" cy="82" r="2.6" fill="#fff" stroke="none"/>
+          </svg>
+        </div>
+        <div class="lesson-body">
+          <h2>Polynomials R-Fractions</h2>
+          <p>Roots, factoring &amp; graphs.</p>
+          <a class="watch-link" href="https://drive.google.com/drive/folders/1-U6wIeev_5OfRoTdMNI4-EA3txHuSB2I" target="_blank" rel="noopener">
+            <svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg>
+            Watch Lesson
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!--
+      Course library — 3 columns of links, replacing the old PDF grid.
+      Each column is a .course-column with its own <ul class="link-list">.
+      Swap the placeholder titles/hrefs below for the real course/book links.
+    -->
+    <section class="course-library">
+      <div class="columns-head" data-aos="fade-right" data-aos-duration="700">
+        <h2>Course Library</h2>
+        <p>Browse by instructor, or start with our picks</p>
+      </div>
+
+      <div class="columns-grid">
+
+        <div class="course-column" data-aos="fade-right" data-aos-duration="700">
+          <h3>Mr Amari's Courses</h3>
+          <ul class="link-list">
+            <li><a href="pdfs/Lecture_1_Logic-Set-Relation.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Logic & Sets</a></li>
+            <li><a href="pdfs/Lecture_2_Algebraic-structure.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Algebraic Structures</a></li>
+            <li><a href="pdfs/Lecture_3_Polynomials-R_Fractions.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Polynomials-R_Fractions</a></li>
+            
+          </ul>
+        </div>
+
+        <div class="course-column" data-aos="zoom-in" data-aos-duration="700">
+          <h3>Mrs Djelladj's Courses</h3>
+          <ul class="link-list">
+            <li><a href="pdfs/Chapitre 1-logique et raisonnement.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Mathematical Logic</a></li>
+            <li><a href="pdfs/Chapter 2 sets and applications suite.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Sets & Applications</a></li>
+            <li><a href="pdfs/Chapter 3 Algebraic structures.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Algebraic Structures</a></li>
+            
+          </ul>
+        </div>
+
+        <div class="course-column" data-aos="fade-left" data-aos-duration="700">
+          <h3>Chosen Courses</h3>
+          <ul class="link-list">
+            <li><a href="https://drive.google.com/file/d/1K96-QhnWtxVlvmeP1Ms6G4ab1GrEyN2z/view" target="_blank" rel="noopener"><i class="fa-solid fa-star"></i>Book : El Mortad</a></li>
+            <li><a href="https://drive.google.com/file/d/1j5TAOsqtAP7kKAlEhxxyXRvfHAteaDI8/view" target="_blank" rel="noopener"><i class="fa-solid fa-star"></i>Book Of Proof</a></li>
+            <li><a href="#" target="_blank" rel="noopener"><i class="fa-solid fa-star"></i>Algebra Practice Pack</a></li>
+            <li><a href="#" target="_blank" rel="noopener"><i class="fa-solid fa-book"></i>Number Theory Intro</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+  // Paste the /exec URL from your Apps Script deployment here
+  const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwmdgmmQV6E6XDN5TexCcAA759NviDqz-bwEonFgYyNivlejuW6PMgy1uJtB6bi2NOLBw/exec";
+
+  // Tiers allowed on THIS page
+  const ALLOWED_TIERS = ["basic", "standard", "premium"];
+
+  // Once a student is verified, remember their tier for the rest of this
+  // browser tab session, so navigating around / reloading the page doesn't
+  // re-run the full check + show the spinner every single time.
+  const TIER_CACHE_KEY = "qedmn_verified_tier";
+
+  function getCachedTier(email) {
+    try {
+      const raw = sessionStorage.getItem(TIER_CACHE_KEY);
+      if (!raw) return null;
+      const cached = JSON.parse(raw);
+      return cached.email === email && cached.tier ? cached.tier : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function cacheTier(email, tier) {
+    try {
+      sessionStorage.setItem(TIER_CACHE_KEY, JSON.stringify({ email, tier }));
+    } catch (e) {
+      /* sessionStorage unavailable — fine, it just re-checks next time */
+    }
+  }
+
+  function showForTier(tier) {
+    document.getElementById("checking").style.display = "none";
+
+    if (tier && ALLOWED_TIERS.includes(tier)) {
+      document.getElementById("app").style.display = "block";
+      if (window.AOS) {
+        window.AOS.init({ duration: 700, once: true, offset: 60 });
+        window.setTimeout(() => window.AOS.refresh(), 50);
+      }
+    } else if (tier) {
+      document.getElementById("pendingTitle").textContent = "Not included in your plan";
+      document.getElementById("pendingText").innerHTML =
+        "Your current plan doesn't include Lessons. Contact me if you'd like to upgrade.";
+      document.getElementById("pending").style.display = "block";
+    } else {
+      document.getElementById("pending").style.display = "block";
+    }
+  }
+
+  // ---------- Rotating quotes shown while "Checking your account..." ----------
+  // Mix of study/patience quotes and دعاء التوفيق (supplications for success),
+  // so students have something nice to read instead of staring at a blank spinner.
+  const CHECKING_DUAS = [
+    { text: "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً", dir: "rtl", type: "dua" },
+    { text: "رب اشرح لي صدري ويسر لي أمري", dir: "rtl", type: "dua" },
+    { text: "اللهم اجعل هذا العلم حجة لي لا علي، ويسر لي فهمه وارزقني فهم الأنبياء", dir: "rtl", type: "dua" },
+    { text: "من جد وجد، ومن زرع حصد", dir: "rtl", type: "dua" }
+  ];
+
+  const CHECKING_QUOTES_EN = [
+    { text: "Patience is bitter, but its fruit is sweet.", dir: "ltr", type: "quote" },
+    { text: "The expert in anything was once a beginner.", dir: "ltr", type: "quote" },
+    { text: "Mathematics is not about numbers, equations, or algorithms: it is about understanding.", dir: "ltr", type: "quote" }
+  ];
+
+  // Duas first, then quotes — shown in this fixed order rather than mixed randomly.
+  const CHECKING_QUOTES = [...CHECKING_DUAS, ...CHECKING_QUOTES_EN];
+
+  let quoteIndex = 0;
+  let quoteTimer = null;
+  const quoteEl = document.getElementById("checkingQuote");
+
+  function showNextQuote() {
+    if (!quoteEl) return;
+    quoteEl.classList.remove("visible");
+    window.setTimeout(() => {
+      const q = CHECKING_QUOTES[quoteIndex % CHECKING_QUOTES.length];
+      quoteEl.textContent = q.text;
+      quoteEl.setAttribute("dir", q.dir);
+      quoteEl.classList.add("visible");
+      quoteIndex++;
+    }, 350);
+  }
+
+  function startQuoteRotation() {
+    showNextQuote();
+    quoteTimer = window.setInterval(showNextQuote, 3200);
+  }
+
+  function stopQuoteRotation() {
+    if (quoteTimer) {
+      window.clearInterval(quoteTimer);
+      quoteTimer = null;
+    }
+  }
+
+  startQuoteRotation();
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+  stopQuoteRotation();
+  const redirectTarget = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+  window.location.href = "access.html?redirect=" + redirectTarget;
+  return;
+}
+
+    // Already verified this student earlier in this browser session?
+    // Skip the network round-trip and the spinner entirely.
+    const cachedTier = getCachedTier(user.email);
+    if (cachedTier) {
+      stopQuoteRotation();
+      showForTier(cachedTier);
+      return;
+    }
+
+    try {
+      const url = `${CONTENT_ENDPOINT}?email=${encodeURIComponent(user.email)}&t=${Date.now()}`;
+      const response = await fetch(url, { cache: "no-store" });
+      const data = await response.json();
+
+      stopQuoteRotation();
+
+      if (data.tier) {
+        cacheTier(user.email, data.tier);
+      }
+      showForTier(data.tier);
+    } catch (error) {
+      stopQuoteRotation();
+      document.getElementById("checking").textContent =
+        "Couldn't check your account status. Please refresh the page.";
+    }
+  });
+</script>
+
+    <!-- AOS jS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- custom js -->
+    <script src="custom.js"></script>
+</body>
+</html>

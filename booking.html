@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Session</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding:55px;
+  }
+
+   .card{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow:0 4px 20px  rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    max-width: 480px;
+    transform : 0.3s ease-in-out ;
+    box-shadow : 0.3s ease ;
+}
+.card:hover{
+    transform:scale(1.05) ;
+    box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
+}
+  h1 { font-size: 22px; margin-bottom: 6px; text-align: center; }
+  p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: #f4f4f7;
+    padding: 6px;
+    border-radius: 10px;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color:black;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+  .tab.active {
+    background:var(--primary-color);
+    color: #fff;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  .payment-block {
+    background: #f9fafb;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #555;
+    display: none;
+  }
+  .payment-block.active { display: block; }
+  .payment-info {
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f);;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--primary-color);
+    line-height: 1.6;
+  }
+  .payment-info p { margin: 2px 0; }
+  .commonBtnSubmit {
+    padding: 15px 30px;
+    font-size: 16px;
+    width: 99%;
+    border-radius:12px ;
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 600;
+    filter: drop-shadow(2px 5px 8px #b1a5f8);
+    border: none;
+    transition: 0.4 ease-in-out;
+    text-decoration: none;
+    background: var(--gradient);
+    cursor: pointer;
+  }
+  .commonBtnSubmit:hover { background: var(--primary-color); }
+  .commonBtnSubmit:disabled { background: var(--primary-color); cursor: default; }
+  .message { margin-top: 14px; text-align: center; font-size: 14px; }
+  .success { color: #15803d; }
+  .error { color: #b91c1c; }
+
+  @media (max-width: 600px) {
+    body { padding: 16px; align-items: flex-start; }
+    .card { width: 100%; max-width: 100%; padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Book a Session at ENP</h1>
+  <p class="subtitle">Fill in your details below. I'll confirm by email once your payment is verified.</p>
+
+  <div class="tabs">
+    <button type="button" class="tab active" data-plan="Basic">Basic</button>
+    <button type="button" class="tab" data-plan="Standard">Standard</button>
+    <button type="button" class="tab" data-plan="Premium">Premium</button>
+  </div>
+
+  <form class="bookingForm">
+    <input type="hidden" name="access_key" value="01bf1597-5ade-4bb0-bd7f-5245195810ab">
+    <input type="hidden" name="redirect" value="thanks.html">
+    <input type="hidden" name="plan" class="planField" value="Basic">
+
+    <label>Full name</label>
+    <input type="text" name="name" required>
+
+    <label>Email (same one you used to sign up)</label>
+    <input type="email" name="email" required>
+
+    <label>Phone number</label>
+    <input type="tel" name="phone" required>
+
+    <label>Payment method</label>
+    <select class="paymentMethod" required>
+      <option value="">Select one</option>
+      <option value="BaridiMob">BaridiMob transfer</option>
+      <option value="In person">Paying in person / cash</option>
+    </select>
+
+    <div class="baridiBlock payment-block">
+      <div class="payment-info">
+        <strong>To pay via BaridiMob:</strong>
+        <p>Send to: 00799999004296527130</p>
+        <p>Name on account: Nor El Yaquin Meriem Doum</p>
+        <p>Then enter your transfer reference below.</p>
+      </div>
+      <label>BaridiMob transfer reference / details</label>
+      <input type="text" name="reference" placeholder="e.g. transaction ID or sender name">
+    </div>
+
+    <div class="meetingBlock payment-block">
+      <label>Preferred meeting spot at ENP</label>
+      <input type="text" class="meetingLocation" name="meetingLocation" placeholder="e.g. Main entrance, library, a specific building">
+
+      <label>Meeting date</label>
+      <input type="date" class="meetingDate" name="meetingDate">
+
+      <label>Meeting time</label>
+      <input type="time" class="meetingTimeOnly" name="meetingTimeOnly">
+    </div>
+
+    <label>Anything else I should know?</label>
+    <textarea name="notes"></textarea>
+    <br><br>
+    <button type="submit" class="commonBtnSubmit submitBtn">Submit Booking</button>
+    <p class="message"></p>
+  </form>
+</div>
+
+<script>
+  const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+  const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzQlsAI3DkstY2c8HS5AJ62gLFGdNE5g7lqUHR02n4NH6iCAQcrAj6eS2XZooxQxMmdSA/exec";
+
+  const tabs = document.querySelectorAll(".tab");
+  const planField = document.querySelector(".planField");
+
+  function activatePlan(planName) {
+    tabs.forEach(t => t.classList.toggle("active", t.dataset.plan === planName));
+    planField.value = planName;
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => activatePlan(tab.dataset.plan));
+  });
+
+  // Support booking.html#standard style links
+  const hash = window.location.hash.replace("#", "");
+  const matchingTab = Array.from(tabs).find(t => t.dataset.plan.toLowerCase() === hash.toLowerCase());
+  if (matchingTab) {
+    activatePlan(matchingTab.dataset.plan);
+  } else {
+    activatePlan("Basic");
+  }
+
+  // --- Payment method behavior ---
+  const form = document.querySelector(".bookingForm");
+  const paymentSelect = form.querySelector(".paymentMethod");
+  const baridiBlock = form.querySelector(".baridiBlock");
+  const meetingBlock = form.querySelector(".meetingBlock");
+  const messageEl = form.querySelector(".message");
+  const submitBtn = form.querySelector(".submitBtn");
+
+  paymentSelect.addEventListener("change", () => {
+    const isBaridi = paymentSelect.value === "BaridiMob";
+    const isInPerson = paymentSelect.value === "In person";
+
+    baridiBlock.classList.toggle("active", isBaridi);
+    meetingBlock.classList.toggle("active", isInPerson);
+
+    form.querySelector(".meetingDate").required = isInPerson;
+    form.querySelector(".meetingTimeOnly").required = isInPerson;
+    form.querySelector(".meetingLocation").required = isInPerson;
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    messageEl.textContent = "Sending...";
+    messageEl.className = "message";
+
+    try {
+      const formData = new FormData(form);
+
+      // Send to Web3Forms (for email notification)
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: formData
+      });
+
+      // Also send to Google Sheets (fire-and-forget, doesn't block the flow)
+      const sheetData = Object.fromEntries(formData.entries());
+      fetch(GOOGLE_SHEETS_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(sheetData)
+      }).catch(() => {
+        // Silently ignore errors here so a Sheets hiccup never blocks the booking
+      });
+
+      if (response.ok) {
+        window.location.href = "thanks.html";
+      } else {
+        messageEl.textContent = "Something went wrong. Please try again.";
+        messageEl.className = "message error";
+        submitBtn.disabled = false;
+      }
+    } catch (error) {
+      messageEl.textContent = "Network error. Please check your connection and try again.";
+      messageEl.className = "message error";
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

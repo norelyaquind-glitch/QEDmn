@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - QED</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  * { box-sizing: border-box; }
+
+  @property --border-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f);
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  /* ---- One big white container, 30px from every edge ---- */
+  .big-box {
+    margin: 30px;
+    height: calc(100vh - 60px);
+    background-color: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  /* ---- Left half: contact content, directly inside the white box ---- */
+  .contact-content {
+    flex: 1 1 auto;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .contact-content > * {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .logo-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .logo-wrap img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  h1 { font-size: 26px; margin-bottom: 6px; text-align: center; color: #C98DA0; }
+  p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 30px; }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  @keyframes rotateBorder {
+    to { --border-angle: 360deg; }
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 8px;
+    background: white;
+    text-decoration: none;
+    color: #222;
+    font-weight: 600;
+    font-size: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    border: 2px solid transparent;
+    --border-angle: 0deg;
+    background-image:
+      linear-gradient(white, white),
+      conic-gradient(from var(--border-angle), var(--primary-color) 0%, #d9b8ff 8%, var(--primary-color) 16%, var(--primary-color) 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: rotateBorder 3s linear infinite;
+  }
+  .contact-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(128, 0, 225, 0.25);
+  }
+  .contact-link i {
+    font-size: 22px;
+    width: 30px;
+    text-align: center;
+    color: var(--primary-color);
+  }
+  .contact-link .label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .contact-link .label small {
+    font-weight: 400;
+    color: #888;
+    font-size: 12px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 30px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 4px;
+    transition: gap 0.2s ease, opacity 0.2s ease;
+  }
+  .back-link:hover {
+    gap: 10px;
+    opacity: 0.75;
+  }
+
+  /* ---- Right half: photo, directly inside the white box ---- */
+  .photo-content {
+    flex: 0 0 auto;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: white;
+  }
+  .photo-content img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .photo-mobile { display: none; }
+
+  @media (max-width: 900px) {
+    .big-box {
+      flex-direction: column;
+      height: calc(100vh - 60px);
+      max-height: none;
+    }
+    .contact-content {
+      padding: 24px 16px;
+      order: 1;
+      flex: 1 1 auto;
+    }
+    .contact-content > * { max-width: 100%; }
+    .logo-wrap img { width: 44px; height: 44px; }
+    h1 { font-size: 18px; }
+    p.subtitle { font-size: 12px; margin-bottom: 14px; }
+    .contact-links { gap: 10px; }
+    .contact-link { padding: 10px 12px; gap: 8px; }
+    .contact-link i { font-size: 16px; width: 20px; }
+    .contact-link .label { font-size: 12px; }
+    .contact-link .label small { font-size: 10px; }
+    .back-link { margin-top: 14px; font-size: 12px; }
+
+    .photo-content { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .big-box { margin: 14px; height: calc(100vh - 28px); }
+    .contact-content { padding: 18px 12px; }
+    .logo-wrap img { width: 36px; height: 36px; }
+    h1 { font-size: 16px; }
+    p.subtitle { font-size: 11px; }
+    .contact-link { padding: 8px 10px; }
+    .contact-link .label { font-size: 11px; }
+    .contact-link .label small { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="big-box">
+
+  <div class="contact-content">
+    <div class="logo-wrap">
+      <img src="images/signature_icon_512px (1).png" alt="QED logo">
+    </div>
+    <h1>Get in Touch</h1>
+    <p class="subtitle">Have a question? Reach out through any of these.</p>
+
+    <div class="contact-links">
+
+      <a class="contact-link" href="mailto:qedmnalgebra@gmail.com">
+        <i class="fa-solid fa-envelope"></i>
+        <div class="label">
+          Email
+          <!-- <small>YOUR_EMAIL_HERE@gmail.com</small> -->
+        </div>
+      </a>
+
+      <a class="contact-link" href="https://wa.me/213662294980" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div class="label">
+          WhatsApp
+          <!-- <small>+YOUR_WHATSAPP_NUMBER_HERE</small> -->
+        </div>
+      </a>
+
+      <a class="contact-link" href="https://instagram.COM/qedmnalgebra" target="_blank">
+        <i class="fa-brands fa-instagram"></i>
+        <div class="label">
+          Instagram
+          <!-- <small>@YOUR_INSTAGRAM_HANDLE</small> -->
+        </div>
+      </a>
+
+    </div>
+
+    <a href="index.html" class="back-link">&larr; Back to Home</a>
+  </div>
+
+  <div class="photo-content">
+    <img src="images/contact-photo (2).jpg" alt="QED" class="photo-desktop">
+   
+  </div>
+
+</div>
+
+</body>
+</html>

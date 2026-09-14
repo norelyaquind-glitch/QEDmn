@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Access Your Lessons</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family :'Poppins' ,sans-serif;
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f); ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+.card{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow:0 4px 20px  rgba(0, 0, 0, 0.08);
+    padding: 30px 20px;
+    width: 320px;
+    transform : 0.3s ease-in-out ;
+    box-shadow : 0.3s ease ;
+}
+.card:hover{
+    transform:scale(1.05) ;
+    box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
+}
+
+  h1 { font-size: 22px; margin-bottom: 6px; text-align: center; }
+  p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 24px; }
+  input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    border: 0.5px solid;
+    border-radius: 8px;
+    font-size: 15px;
+    border-color: var(--gradient);
+  }
+  .commonBtnEnter{
+    padding: 15px 30px;
+    font-size: 16px;
+    width: 99%;
+    border-radius:15px ;
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 600;
+    filter: drop-shadow(2px 5px 8px #b1a5f8);
+    border: none;
+    transition: 0.4 ease-in-out;
+    text-decoration: none;
+    background: var(--gradient);
+    cursor: pointer;
+}
+.commonBtnEnter:hover{
+  background: linear-gradient(349deg , #9383f5, #b1a5f8);
+    color: white;
+}
+
+  #message { margin-top: 14px; text-align: center; font-size: 14px; }
+  .error { color: #b91c1c; }
+  .info { color: #555; }
+  #message a { color: var(--primary-color, #7b5fff); font-weight: 600; text-decoration: underline; }
+  .spinner {
+    width: 22px;
+    height: 22px;
+    margin: 14px auto 0 auto;
+    border: 3px solid #e5e0fb;
+    border-top-color: #7c3aed;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  p.footer { text-align: center; margin-top: 16px; font-size: 13px; color: #888; }
+  a { color: var(--secondary-color); }
+
+  @media (max-width: 400px) {
+    body { padding: 16px; }
+    .card { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Access Your Courses</h1>
+  <p class="subtitle">Enter your email and password. </p>
+  <hr>
+  <br>
+  <br>
+  <input type="email" id="email" placeholder="Email">
+  <br>
+  <input type="password" id="password" placeholder="Password (6+ characters)">
+  <button id="enterBtn" class="commonBtnEnter">Enter</button>
+  <p id="message"></p>
+  <p class="footer">Haven't sing up yet? <a href="booking.html">Join us here</a></p>
+</div>
+
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+  // Same Apps Script endpoint used on lessons.html / TDs.html / Exams.html
+  const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwmdgmmQV6E6XDN5TexCcAA759NviDqz-bwEonFgYyNivlejuW6PMgy1uJtB6bi2NOLBw/exec";
+
+  // Where to send the student once they're confirmed approved.
+  // If a protected page sent them here (appending ?redirect=<that page>),
+  // send them straight back there — they've already seen the welcome page before.
+  // Otherwise (e.g. they opened access.html directly, first time in), show welcome.html.
+  const params = new URLSearchParams(window.location.search);
+  const redirectTarget = params.get("redirect") || "welcome.html";
+
+  const messageEl = document.getElementById("message");
+  const enterBtn = document.getElementById("enterBtn");
+
+  function showSpinner() {
+    messageEl.innerHTML = '<div class="spinner"></div>';
+    messageEl.className = "";
+  }
+
+  async function checkApprovalAndRedirect(email) {
+    showSpinner();
+
+    try {
+      const url = `${CONTENT_ENDPOINT}?email=${encodeURIComponent(email)}&t=${Date.now()}`;
+      const response = await fetch(url, { cache: "no-store" });
+      const data = await response.json();
+
+      if (data.tier) {
+        // Approved for at least one plan — send them straight back
+        // to whichever page they were trying to reach.
+        window.location.href = redirectTarget;
+      } else {
+        // Logged in fine, but no confirmed payment yet
+        messageEl.innerHTML =
+          'No confirmed payment found for this account yet. ' +
+          '<a href="booking.html">Fill in the booking form</a> to get started, ' +
+          'or wait a little if you already paid — approval can take some time.';
+        messageEl.className = "error";
+        enterBtn.disabled = false;
+      }
+    } catch (error) {
+      messageEl.textContent = "Couldn't check your account status. Please try again.";
+      messageEl.className = "error";
+      enterBtn.disabled = false;
+    }
+  }
+
+  enterBtn.addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      messageEl.textContent = "Please fill in both fields.";
+      messageEl.className = "error";
+      return;
+    }
+    if (password.length < 6) {
+      messageEl.textContent = "Password must be at least 6 characters.";
+      messageEl.className = "error";
+      return;
+    }
+
+    enterBtn.disabled = true;
+    showSpinner();
+
+    try {
+      // Try logging in first (existing account)
+      await signInWithEmailAndPassword(auth, email, password);
+      await checkApprovalAndRedirect(email);
+    } catch (loginError) {
+      if (loginError.code === "auth/user-not-found" || loginError.code === "auth/invalid-credential") {
+        // No account yet with this email — create one
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          await checkApprovalAndRedirect(email);
+        } catch (signupError) {
+          if (signupError.code === "auth/email-already-in-use") {
+            // This means an account DOES exist — the original sign-in attempt
+            // failed because the password was wrong, not because there's no account.
+            messageEl.textContent = "Incorrect email or password.";
+          } else {
+            messageEl.textContent = signupError.message;
+          }
+          messageEl.className = "error";
+          enterBtn.disabled = false;
+        }
+      } else if (loginError.code === "auth/wrong-password") {
+        messageEl.textContent = "Incorrect password for this email.";
+        messageEl.className = "error";
+        enterBtn.disabled = false;
+      } else {
+        messageEl.textContent = loginError.message;
+        messageEl.className = "error";
+        enterBtn.disabled = false;
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
