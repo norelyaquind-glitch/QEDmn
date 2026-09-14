@@ -459,7 +459,7 @@ body ::-webkit-scrollbar-thumb{
   import { auth } from "./firebase-config.js";
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-  const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwmdgmmQV6E6XDN5TexCcAA759NviDqz-bwEonFgYyNivlejuW6PMgy1uJtB6bi2NOLBw/exec";
+ const CONTENT_ENDPOINT = "/api/tier";
   const TIER_CACHE_KEY = "qedmn_verified_tier";
 
   function getCachedTier(email) {

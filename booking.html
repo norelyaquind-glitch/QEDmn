@@ -191,8 +191,7 @@
 
 <script>
   const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
-  const GOOGLE_SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzQlsAI3DkstY2c8HS5AJ62gLFGdNE5g7lqUHR02n4NH6iCAQcrAj6eS2XZooxQxMmdSA/exec";
-
+  
   const tabs = document.querySelectorAll(".tab");
   const planField = document.querySelector(".planField");
 
@@ -250,12 +249,11 @@
         body: formData
       });
 
-      // Also send to Google Sheets (fire-and-forget, doesn't block the flow)
+      // Send booking data to our own function, which forwards it to Google Sheets
       const sheetData = Object.fromEntries(formData.entries());
-      fetch(GOOGLE_SHEETS_ENDPOINT, {
+      fetch("/api/book", {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sheetData)
       }).catch(() => {
         // Silently ignore errors here so a Sheets hiccup never blocks the booking
