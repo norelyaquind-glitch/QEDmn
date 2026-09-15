@@ -8,28 +8,33 @@
  <link rel="icon" type="image/png" href="logo_512x512_v2">
 <style>
   * { box-sizing: border-box; }
+  html, body {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    position: static !important;
+  }
   body {
     font-family: system-ui, sans-serif;
     background: linear-gradient(180deg , #a196ef1f , #9e92f50f);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     min-height: 100vh;
     margin: 0;
-    padding:55px;
+    padding: 40px 16px;
   }
 
    .card{
     background-color: white;
     border-radius: 20px;
     box-shadow:0 4px 20px  rgba(0, 0, 0, 0.08);
-    padding: 40px;
-    max-width: 480px;
+    padding: 28px 32px;
+    max-width: 760px;
+    width: min(760px, 100%);
+    margin: 0 auto;
     transform : 0.3s ease-in-out ;
     box-shadow : 0.3s ease ;
 }
 .card:hover{
-    transform:scale(1.05) ;
     box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
 }
   h1 { font-size: 22px; margin-bottom: 6px; text-align: center; }
@@ -62,21 +67,79 @@
 
   label {
     display: block;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: #333;
-    margin-bottom: 6px;
-    margin-top: 14px;
+    margin-bottom: 5px;
+    margin-top: 10px;
   }
   input, select, textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 14px;
     font-family: inherit;
   }
-  textarea { resize: vertical; min-height: 70px; }
+  textarea { resize: vertical; min-height: 60px; }
+  .field-hint {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+  }
+  .form-sections {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-top: 6px;
+  }
+  .form-section {
+    flex: 1;
+    min-width: 0;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+  .section-header .step-num {
+    flex: 0 0 26px;
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .section-header h2 {
+    font-size: 15px;
+    margin: 0;
+    color: #222;
+  }
+  .section-divider {
+    align-self: stretch;
+    width: 1px;
+    border: none;
+    background: #eee;
+    margin: 4px 0;
+  }
+
+  @media (max-width: 720px) {
+    .form-sections {
+      flex-direction: column;
+    }
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      margin: 10px 0;
+    }
+  }
   .payment-block {
     background: #f9fafb;
     border: 1px solid #eee;
@@ -143,55 +206,99 @@
     <input type="hidden" name="redirect" value="thanks.html">
     <input type="hidden" name="plan" class="planField" value="Basic">
 
-    <label>Full name</label>
-    <input type="text" name="name" required>
-
-    <label>Email (same one you used to sign up)</label>
-    <input type="email" name="email" required>
-
-    <label>Phone number</label>
-    <input type="tel" name="phone" required>
-
-    <label>Payment method</label>
-    <select class="paymentMethod" required>
-      <option value="">Select one</option>
-      <option value="BaridiMob">BaridiMob transfer</option>
-      <option value="In person">Paying in person / cash</option>
-    </select>
-
-    <div class="baridiBlock payment-block">
-      <div class="payment-info">
-        <strong>To pay via BaridiMob:</strong>
-        <p>Send to: 00799999004296527130</p>
-        <p>Name on account: Nor El Yaquin Meriem Doum</p>
-        <p>Then enter your transfer reference below.</p>
+    <div class="form-sections">
+    <div class="form-section">
+      <div class="section-header">
+        <div class="step-num">1</div>
+        <h2>Book your session</h2>
       </div>
-      <label>BaridiMob transfer reference / details</label>
-      <input type="text" name="reference" placeholder="e.g. transaction ID or sender name">
+      <p style="margin: 2px 0 0 36px; font-size: 12.5px; color: #888;">Choose a plan and tell us how to reach you.</p>
+
+      <label>Full name</label>
+      <input type="text" name="name" required>
+
+      <label>Phone number</label>
+      <input type="tel" name="phone" id="phone" placeholder="0xxxxxxxxx" pattern="0[0-9]{9}" maxlength="10" inputmode="numeric" required>
+      <p class="field-hint">Must start with 0 and be 10 digits total (e.g. 0551234567).</p>
+
+      <label>Payment method</label>
+      <select class="paymentMethod" required>
+        <option value="">Select one</option>
+        <option value="BaridiMob">BaridiMob transfer</option>
+        <option value="In person">Paying in person / cash</option>
+      </select>
+
+      <div class="baridiBlock payment-block">
+        <div class="payment-info">
+          <strong>To pay via BaridiMob:</strong>
+          <p>Send to: 00799999004296527130</p>
+          <p>Name on account: Nor El Yaquin Meriem Doum</p>
+          <p>Then enter your transfer reference below.</p>
+        </div>
+        <label>BaridiMob transfer reference / details</label>
+        <input type="text" name="reference" placeholder="e.g. transaction ID or sender name">
+      </div>
+
+      <div class="meetingBlock payment-block">
+        <label>Preferred meeting spot at ENP</label>
+        <input type="text" class="meetingLocation" name="meetingLocation" placeholder="e.g. Main entrance, library, a specific building">
+
+        <p class="field-hint" style="margin-top: 10px;">Give us two possible times, in case the first one doesn't work out.</p>
+
+        <label>First choice — date</label>
+        <input type="date" class="meetingDate" name="meetingDate">
+
+        <label>First choice — time</label>
+        <input type="time" class="meetingTimeOnly" name="meetingTimeOnly">
+
+        <label>Backup choice — date</label>
+        <input type="date" class="meetingDate2" name="meetingDate2">
+
+        <label>Backup choice — time</label>
+        <input type="time" class="meetingTimeOnly2" name="meetingTimeOnly2">
+      </div>
+
+      <label>Anything else I should know?</label>
+      <textarea name="notes"></textarea>
     </div>
 
-    <div class="meetingBlock payment-block">
-      <label>Preferred meeting spot at ENP</label>
-      <input type="text" class="meetingLocation" name="meetingLocation" placeholder="e.g. Main entrance, library, a specific building">
+    <hr class="section-divider">
 
-      <label>Meeting date</label>
-      <input type="date" class="meetingDate" name="meetingDate">
+    <div class="form-section">
+      <div class="section-header">
+        <div class="step-num">2</div>
+        <h2>Create your account</h2>
+      </div>
+      <p style="margin: 2px 0 0 36px; font-size: 12.5px; color: #888;">Used to check your booking status and log in later.</p>
 
-      <label>Meeting time</label>
-      <input type="time" class="meetingTimeOnly" name="meetingTimeOnly">
+      <label>Email</label>
+      <input type="email" name="email" id="email" placeholder="name@example.com" required>
+      <p class="field-hint">Must be a valid email containing @.</p>
+
+      <label>Create a password</label>
+      <input type="password" name="password" id="password" minlength="6" required>
+      <p class="field-hint">6+ characters. You'll use this same password to log in and access your courses.</p>
+
+      <label>Confirm password</label>
+      <input type="password" id="confirmPassword" minlength="6" required>
+    </div>
     </div>
 
-    <label>Anything else I should know?</label>
-    <textarea name="notes"></textarea>
-    <br><br>
+    <br>
     <button type="submit" class="commonBtnSubmit submitBtn">Submit Booking</button>
     <p class="message"></p>
   </form>
 </div>
 
-<script>
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
   const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
-  
+
   const tabs = document.querySelectorAll(".tab");
   const planField = document.querySelector(".planField");
 
@@ -220,6 +327,8 @@
   const meetingBlock = form.querySelector(".meetingBlock");
   const messageEl = form.querySelector(".message");
   const submitBtn = form.querySelector(".submitBtn");
+  const passwordInput = document.getElementById("password");
+  const confirmPasswordInput = document.getElementById("confirmPassword");
 
   paymentSelect.addEventListener("change", () => {
     const isBaridi = paymentSelect.value === "BaridiMob";
@@ -230,26 +339,96 @@
 
     form.querySelector(".meetingDate").required = isInPerson;
     form.querySelector(".meetingTimeOnly").required = isInPerson;
+    form.querySelector(".meetingDate2").required = isInPerson;
+    form.querySelector(".meetingTimeOnly2").required = isInPerson;
     form.querySelector(".meetingLocation").required = isInPerson;
   });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    const email = form.email.value.trim();
+    const phone = form.phone.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    const phonePattern = /^0[0-9]{9}$/;
+    if (!phonePattern.test(phone)) {
+      messageEl.textContent = "Phone number must start with 0 and contain 10 digits in total (e.g. 0551234567).";
+      messageEl.className = "message error";
+      return;
+    }
+
+    if (!email.includes("@")) {
+      messageEl.textContent = "Please enter a valid email address (must contain @).";
+      messageEl.className = "message error";
+      return;
+    }
+
+    if (password.length < 6) {
+      messageEl.textContent = "Password must be at least 6 characters.";
+      messageEl.className = "message error";
+      return;
+    }
+    if (password !== confirmPassword) {
+      messageEl.textContent = "Passwords don't match.";
+      messageEl.className = "message error";
+      return;
+    }
+
     submitBtn.disabled = true;
+    messageEl.textContent = "Creating your account...";
+    messageEl.className = "message";
+
+    // --- Step 1: create (or verify) the Firebase account for this email/password ---
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (authError) {
+      if (authError.code === "auth/email-already-in-use") {
+        // Account already exists (e.g. booking a second plan).
+        // Confirm the password they typed matches the existing account.
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+        } catch (signInError) {
+          messageEl.textContent =
+            "An account already exists for this email. Please enter the same password you used before, or reset it from the Access page.";
+          messageEl.className = "message error";
+          submitBtn.disabled = false;
+          return;
+        }
+      } else if (authError.code === "auth/weak-password") {
+        messageEl.textContent = "Please choose a stronger password (6+ characters).";
+        messageEl.className = "message error";
+        submitBtn.disabled = false;
+        return;
+      } else if (authError.code === "auth/invalid-email") {
+        messageEl.textContent = "Please enter a valid email address.";
+        messageEl.className = "message error";
+        submitBtn.disabled = false;
+        return;
+      } else {
+        messageEl.textContent = authError.message;
+        messageEl.className = "message error";
+        submitBtn.disabled = false;
+        return;
+      }
+    }
+
+    // --- Step 2: submit the booking itself, same as before ---
     messageEl.textContent = "Sending...";
     messageEl.className = "message";
 
     try {
       const formData = new FormData(form);
+      // Don't send the raw password to Web3Forms/Sheets — it's only for Firebase Auth.
+      formData.delete("password");
 
-      // Send to Web3Forms (for email notification)
       const response = await fetch(WEB3FORMS_ENDPOINT, {
         method: "POST",
         headers: { "Accept": "application/json" },
         body: formData
       });
 
-      // Send booking data to our own function, which forwards it to Google Sheets
       const sheetData = Object.fromEntries(formData.entries());
       fetch("/api/book", {
         method: "POST",
