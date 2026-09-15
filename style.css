@@ -298,7 +298,7 @@ font-family:'Poppins' ,sans-serif; ;}
 .course{
     background: linear-gradient(45deg ,#ed88aa ,#e76e94);
     padding: 25px;
-    border-radius: 20px;
+    border-radius: 16px;
     flex: 1 1 200px;
     text-align: left;
     color: white;
