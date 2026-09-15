@@ -49,7 +49,7 @@ body ::-webkit-scrollbar-thumb{
     align-items: center;
     max-width: 1200px;
     margin:auto ;
-    padding: 20px;
+    padding: 8px 20px;
 } 
 .commonBtnLog{
     background: whitesmoke;
@@ -87,7 +87,7 @@ body ::-webkit-scrollbar-thumb{
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
     width: 100%;
     z-index: 9999;
-    padding: 10px 100px;
+    padding: 0px 100px;
     align-content: space-between;
 }
 
