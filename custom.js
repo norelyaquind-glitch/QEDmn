@@ -25,7 +25,7 @@ animateCounter('courseCount' , 65 , 50);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const SHEET_ENDPOINT = "/api/stats";
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec";
 
   // 1. Show a cached number INSTANTLY (no waiting for the network)
   const cachedCount = localStorage.getItem('cachedCourseStudents');
