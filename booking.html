@@ -430,13 +430,12 @@
       });
 
       const sheetData = Object.fromEntries(formData.entries());
-      fetch("/api/book", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sheetData)
-      }).catch(() => {
-        // Silently ignore errors here so a Sheets hiccup never blocks the booking
-      });
+ fetch("https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec", {
+  method: "POST",
+  body: JSON.stringify(sheetData)
+}).catch(() => {
+  // Silently ignore errors here so a Sheets hiccup never blocks the booking
+});
 
       if (response.ok) {
         window.location.href = "thanks.html";
