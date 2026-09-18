@@ -529,7 +529,33 @@
 
   </main>
 </div>
+<div id="pdfModal">
+  <div class="pdf-modal-box">
+    <button class="pdf-modal-close" onclick="closePdfViewer()" aria-label="Close">&times;</button>
+    <iframe id="pdfFrame" src=""></iframe>
+  </div>
+</div>
 
+<script>
+  function openPdfViewer(url) {
+    if (!url || url === "#") {
+      alert("Solution PDF not linked yet.");
+      return;
+    }
+    document.getElementById('pdfFrame').src = url + '#toolbar=0&navpanes=0';
+    document.getElementById('pdfModal').classList.add('open');
+  }
+  function closePdfViewer() {
+    document.getElementById('pdfModal').classList.remove('open');
+    document.getElementById('pdfFrame').src = '';
+  }
+  document.getElementById('pdfModal').addEventListener('click', (e) => {
+    if (e.target.id === 'pdfModal') closePdfViewer();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePdfViewer();
+  });
+</script>
 <script type="module">
   import { auth } from "./firebase-config.js";
   import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
