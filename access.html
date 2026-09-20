@@ -127,11 +127,12 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
     messageEl.className = "";
   }
 
-  async function checkApprovalAndRedirect(email) {
+  async function checkApprovalAndRedirect() {
     showSpinner();
 
     try {
-      const url = `${CONTENT_ENDPOINT}?email=${encodeURIComponent(email)}&t=${Date.now()}`;
+      const idToken = await auth.currentUser.getIdToken();
+      const url = `${CONTENT_ENDPOINT}?idToken=${encodeURIComponent(idToken)}&t=${Date.now()}`;
       const response = await fetch(url, { cache: "no-store" });
       const data = await response.json();
 
@@ -176,13 +177,13 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
     try {
       // Try logging in first (existing account)
       await signInWithEmailAndPassword(auth, email, password);
-      await checkApprovalAndRedirect(email);
+      await checkApprovalAndRedirect();
     } catch (loginError) {
       if (loginError.code === "auth/user-not-found" || loginError.code === "auth/invalid-credential") {
         // No account yet with this email — create one
         try {
           await createUserWithEmailAndPassword(auth, email, password);
-          await checkApprovalAndRedirect(email);
+          await checkApprovalAndRedirect();
         } catch (signupError) {
           if (signupError.code === "auth/email-already-in-use") {
             // This means an account DOES exist — the original sign-in attempt
