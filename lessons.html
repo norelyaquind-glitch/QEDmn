@@ -767,22 +767,23 @@
       return;
     }
 
-    try {
-      const url = `${CONTENT_ENDPOINT}?email=${encodeURIComponent(user.email)}&t=${Date.now()}`;
-      const response = await fetch(url, { cache: "no-store" });
-      const data = await response.json();
+ try {
+  const idToken = await user.getIdToken();
+  const url = `${CONTENT_ENDPOINT}?idToken=${encodeURIComponent(idToken)}&t=${Date.now()}`;
+  const response = await fetch(url, { cache: "no-store" });
+  const data = await response.json();
 
-      stopQuoteRotation();
+  stopQuoteRotation();
 
-      if (data.tier) {
-        cacheTier(user.email, data.tier);
-      }
-      showForTier(data.tier);
-    } catch (error) {
-      stopQuoteRotation();
-      document.getElementById("checking").textContent =
-        "Couldn't check your account status. Please refresh the page.";
-    }
+  if (data.tier) {
+    cacheTier(user.email, data.tier);
+  }
+  showForTier(data.tier);
+} catch (error) {
+  stopQuoteRotation();
+  document.getElementById("checking").textContent =
+    "Couldn't check your account status. Please refresh the page.";
+}
   });
 </script>
 
