@@ -778,7 +778,10 @@ background: var(--gradient);
     display: flex;
     justify-content: space-between;
 }
-
+.testimonials-row {
+  overflow-x: auto;
+  overscroll-behavior-x: contain; /* keeps horizontal scroll from leaking, but doesn't block vertical */
+}
 .top-section{
     display: flex;
     flex-direction: column;
