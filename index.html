@@ -459,7 +459,7 @@ It was truly a pleasure and an honor to have studied alongside you. I wish you a
   import { auth } from "./firebase-config.js";
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
- const CONTENT_ENDPOINT = "/api/tier";
+  const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec";
   const TIER_CACHE_KEY = "qedmn_verified_tier";
 
   function getCachedTier(email) {
@@ -488,7 +488,6 @@ It was truly a pleasure and an honor to have studied alongside you. I wish you a
       return;
     }
 
-    // Reuse a cached tier if lessons.html/TDs.html/Exams.html already checked it this session
     const cachedTier = getCachedTier(user.email);
     if (cachedTier) {
       loginLink.textContent = "Logged in";
@@ -496,7 +495,8 @@ It was truly a pleasure and an honor to have studied alongside you. I wish you a
     }
 
     try {
-      const url = `${CONTENT_ENDPOINT}?email=${encodeURIComponent(user.email)}&t=${Date.now()}`;
+      const idToken = await user.getIdToken();
+      const url = `${CONTENT_ENDPOINT}?idToken=${encodeURIComponent(idToken)}&t=${Date.now()}`;
       const response = await fetch(url, { cache: "no-store" });
       const data = await response.json();
 
