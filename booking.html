@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book a Session</title>
+<title>Join QEDmn</title>
 <link rel="stylesheet" href="style.css">
  <link rel="icon" type="image/png" href="logo_512x512_v2">
 <script src="https://www.google.com/recaptcha/api.js?render=6Ld0H8ctAAAAANC9LSsoxcf_JsyElmgo2_dwNgau"></script>
@@ -38,33 +38,9 @@
 .card:hover{
     box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
 }
-  h1 { font-size: 22px; margin-bottom: 6px; text-align: center; }
+  h1 { font-size: 22px; margin-bottom: 6px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  h1 .brandLogo { height: 28px; width: auto; vertical-align: middle; }
   p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
-
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
-    background: #f4f4f7;
-    padding: 6px;
-    border-radius: 10px;
-  }
-  .tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color:black;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-  }
-  .tab.active {
-    background:var(--primary-color);
-    color: #fff;
-  }
 
   label {
     display: block;
@@ -163,6 +139,40 @@
     line-height: 1.6;
   }
   .payment-info p { margin: 2px 0; }
+
+  /* --- Plan readout, shown just above the submit button --- */
+  .planBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg , #a196ef1f , #9e92f50f);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 20px;
+  }
+  .planBar .planLabel {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .planBar .planName {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+  .planBar .planPrice {
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+  }
+  .planBar .planPeriod {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+  }
+
   .commonBtnSubmit {
     padding: 15px 30px;
     font-size: 16px;
@@ -177,6 +187,7 @@
     text-decoration: none;
     background: var(--gradient);
     cursor: pointer;
+    margin-top: 14px;
   }
   .commonBtnSubmit:hover { background: var(--primary-color); }
   .commonBtnSubmit:disabled { background: var(--primary-color); cursor: default; }
@@ -187,20 +198,15 @@
   @media (max-width: 600px) {
     body { padding: 16px; align-items: flex-start; }
     .card { width: 100%; max-width: 100%; padding: 24px 18px; }
+    .planBar { flex-direction: column; align-items: flex-start; gap: 4px; }
   }
 </style>
 </head>
 <body>
 
 <div class="card">
-  <h1>Book a Session at ENP</h1>
-  <p class="subtitle">Fill in your details below. I'll confirm by email once your payment is verified.</p>
-
-  <div class="tabs">
-    <button type="button" class="tab active" data-plan="Basic">Basic</button>
-    <button type="button" class="tab" data-plan="Standard">Standard</button>
-    <button type="button" class="tab" data-plan="Premium">Premium</button>
-  </div>
+  <h1>Join <img src="logo_512x512_v2" alt="QEDmn" class="brandLogo"></h1>
+  <p class="subtitle">Create your account below. I'll confirm your access once your payment is verified.</p>
 
   <form class="bookingForm">
     <input type="hidden" name="access_key" value="01bf1597-5ade-4bb0-bd7f-5245195810ab">
@@ -211,9 +217,9 @@
     <div class="form-section">
       <div class="section-header">
         <div class="step-num">1</div>
-        <h2>Book your session</h2>
+        <h2>Your details</h2>
       </div>
-      <p style="margin: 2px 0 0 36px; font-size: 12.5px; color: #888;">Choose a plan and tell us how to reach you.</p>
+      <p style="margin: 2px 0 0 36px; font-size: 12.5px; color: #888;">Tell us how to reach you.</p>
 
       <label>Full name</label>
       <input type="text" name="name" required>
@@ -285,8 +291,20 @@
     </div>
     </div>
 
-    <br>
-    <button type="submit" class="commonBtnSubmit submitBtn">Submit Booking</button>
+    <!-- Plan readout: set automatically from which UPGRADE button was clicked,
+         not editable here. No more tab switcher. -->
+    <div class="planBar">
+      <div>
+        <div class="planLabel">Selected plan</div>
+        <div class="planName">Basic</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="planPrice">1500DA</div>
+        <div class="planPeriod">/ Semester</div>
+      </div>
+    </div>
+
+    <button type="submit" class="commonBtnSubmit submitBtn">Submit</button>
     <p class="message"></p>
   </form>
 </div>
@@ -299,27 +317,38 @@
   } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
   const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
+  const APPS_SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec";
 
-  const tabs = document.querySelectorAll(".tab");
+  // Keep these in sync with the prices shown on the pricing page.
+  const PLANS = {
+    Basic:    { price: "1500DA", period: "Semester" },
+    Standard: { price: "2500DA", period: "Semester" },
+    Premium:  { price: "3000DA", period: "Semester" }
+  };
+
   const planField = document.querySelector(".planField");
+  const planNameEl = document.querySelector(".planName");
+  const planPriceEl = document.querySelector(".planPrice");
+  const planPeriodEl = document.querySelector(".planPeriod");
 
-  function activatePlan(planName) {
-    tabs.forEach(t => t.classList.toggle("active", t.dataset.plan === planName));
-    planField.value = planName;
+  function setPlan(requestedPlan) {
+    // Normalize casing (e.g. "standard" -> "Standard") and fall back to Basic
+    // if the link didn't specify a known plan.
+    const match = Object.keys(PLANS).find(
+      p => p.toLowerCase() === String(requestedPlan || "").toLowerCase()
+    );
+    const plan = match || "Basic";
+
+    planField.value = plan;
+    planNameEl.textContent = plan;
+    planPriceEl.textContent = PLANS[plan].price;
+    planPeriodEl.textContent = "/ " + PLANS[plan].period;
   }
 
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => activatePlan(tab.dataset.plan));
-  });
-
-  // Support booking.html#standard style links
+  // Plan comes from the link the user arrived on, e.g. booking.html#Standard
+  // (this is exactly what your pricing page's UPGRADE buttons should link to).
   const hash = window.location.hash.replace("#", "");
-  const matchingTab = Array.from(tabs).find(t => t.dataset.plan.toLowerCase() === hash.toLowerCase());
-  if (matchingTab) {
-    activatePlan(matchingTab.dataset.plan);
-  } else {
-    activatePlan("Basic");
-  }
+  setPlan(hash);
 
   // --- Payment method behavior ---
   const form = document.querySelector(".bookingForm");
@@ -386,7 +415,7 @@
       await createUserWithEmailAndPassword(auth, email, password);
     } catch (authError) {
       if (authError.code === "auth/email-already-in-use") {
-        // Account already exists (e.g. booking a second plan).
+        // Account already exists (e.g. joining a second plan).
         // Confirm the password they typed matches the existing account.
         try {
           await signInWithEmailAndPassword(auth, email, password);
@@ -434,12 +463,14 @@
 
       // Get a reCAPTCHA v3 token proving this submission is coming from a real
       // browser session on this page, not a script hitting the endpoint directly.
-   const recaptchaToken = await grecaptcha.execute('6Ld0H8ctAAAAANC9LSsoxcf_JsyElmgo2_dwNgau', { action: 'booking' });
+      const recaptchaToken = await grecaptcha.execute('6Ld0H8ctAAAAANC9LSsoxcf_JsyElmgo2_dwNgau', { action: 'booking' });
       sheetData.recaptchaToken = recaptchaToken;
 
-      fetch("https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec", {
+      // keepalive lets this request finish even after we navigate away below.
+      await fetch(APPS_SCRIPT_ENDPOINT, {
         method: "POST",
-        body: JSON.stringify(sheetData)
+        body: JSON.stringify(sheetData),
+        keepalive: true
       }).catch(() => {
         // Silently ignore errors here so a Sheets hiccup never blocks the booking
       });
