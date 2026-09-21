@@ -38,8 +38,13 @@
 .card:hover{
     box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
 }
-  h1 { font-size: 22px; margin-bottom: 6px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  h1 .brandLogo { height: 28px; width: auto; vertical-align: middle; }
+  h1 { font-size: 22px; margin-bottom: 6px; text-align: center; }
+  .logoImg {
+    display: block;
+    height: 72px;
+    width: auto;
+    margin: 0 auto 14px;
+  }
   p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
 
   label {
@@ -149,7 +154,8 @@
     border: 1px solid var(--primary-color);
     border-radius: 10px;
     padding: 12px 16px;
-    margin-top: 20px;
+    width: 99%;
+    margin: 20px auto 0;
   }
   .planBar .planLabel {
     font-size: 12px;
@@ -187,7 +193,8 @@
     text-decoration: none;
     background: var(--gradient);
     cursor: pointer;
-    margin-top: 14px;
+    margin: 14px auto 0;
+    display: block;
   }
   .commonBtnSubmit:hover { background: var(--primary-color); }
   .commonBtnSubmit:disabled { background: var(--primary-color); cursor: default; }
@@ -205,7 +212,8 @@
 <body>
 
 <div class="card">
-  <h1>Join <img src="signature_icon_512px (1).png" alt="QEDmn" class="brandLogo"></h1>
+  <img src="logo_512x512_v2" alt="QEDmn" class="logoImg">
+  <h1>Join us</h1>
   <p class="subtitle">Create your account below. I'll confirm your access once your payment is verified.</p>
 
   <form class="bookingForm">
@@ -488,6 +496,10 @@
       submitBtn.disabled = false;
     }
   });
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
