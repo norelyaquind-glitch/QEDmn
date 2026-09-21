@@ -9,16 +9,19 @@ function toggleMenu(){
 
 //counte animation
 
-function animateCounter(id , target , speed ){
+function animateCounter(id, target, speed){
+    const el = document.getElementById(id);
+    if (!el) return; // element doesn't exist on this page — nothing to animate
+
     let count = 0;
-    const interval =  setInterval(() =>{
-        if(count < target){
-            count++ ;
-            document.getElementById(id).innerText= count ;
-        }else{
+    const interval = setInterval(() => {
+        if (count < target){
+            count++;
+            el.innerText = count;
+        } else {
             clearInterval(interval);
         }
-    } , speed)
+    }, speed);
 }
 animateCounter('courseCount' , 65 , 50);
 
