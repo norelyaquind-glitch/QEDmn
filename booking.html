@@ -434,7 +434,7 @@
 
       // Get a reCAPTCHA v3 token proving this submission is coming from a real
       // browser session on this page, not a script hitting the endpoint directly.
-      const recaptchaToken = await grecaptcha.execute('6Ld0H8ctAAAAANC9LSsoxcf_JsyEImgo2_dwNgau', { action: 'booking' });
+   const recaptchaToken = await grecaptcha.execute('6Ld0H8ctAAAAANC9LSsoxcf_JsyElmgo2_dwNgau', { action: 'booking' });
       sheetData.recaptchaToken = recaptchaToken;
 
       fetch("https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec", {
