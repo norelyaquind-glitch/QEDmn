@@ -194,36 +194,63 @@ font-family:'Poppins' ,sans-serif; ;}
     
 }
 
-.heroIcon1,
-.heroIcon2{
+/* Grade badges — small, professional chips showing DMN's actual grades,
+   replacing the old low-res screenshot "heroIcon" images. */
+.grade-badge{
     position: absolute;
     z-index: 99;
-    border-radius: 10px!important;
-    filter: drop-shadow(5px 4px 10px #333);
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px 10px;
+    box-shadow: 0 6px 16px rgba(60, 40, 130, 0.14);
+    border: 1px solid #efedfa;
 }
-.heroIcon1{
-    left: Opx;
-    bottom: 10px;
-    animation: slideDown 1s ease-in-out infinite alternate;
-    width: 110px ;
-    height: 70px;
-    border-radius: 20px;
+.grade-badge-header{
+    font-size: 9.5px;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    white-space: nowrap;
 }
-.heroIcon2{
-    right:0;
-    top: 30px;
-    width:110px ;
-    height: 70px;
-    animation: slideRight 1s ease-in-out infinite alternate;
+.grade-list{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-@keyframes slideDown{
-    from {left: 0px;}
-    to {left: 20px;}
+.grade-list li{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    padding-right: 8px;
+    border-right: 1px solid #ece9f8;
+    white-space: nowrap;
 }
-
-@keyframes slideRight{
-    from {right: -20px;}
-    to {right: Opx;}
+.grade-list li:last-child{
+    padding-right: 0;
+    border-right: none;
+}
+.grade-list li span{
+    font-size: 8px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.grade-list li strong{
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 11px;
+}
+.grade-badge-algebre{
+    left: -6px;
+    bottom: 14px;
+}
+.grade-badge-analyse{
+    right: -6px;
+    top: 34px;
 }
 .circle-container{
     position: absolute;
@@ -1041,8 +1068,9 @@ nav ul.active{display:flex; z-index: 9999;}
 .course-section{padding: 20px;}
 .stats{flex-direction: column;}
 .circle-container{display: none;}
-.courses{flex-direction: column; align-items: center;}
-.course{width: 90%;}
+.courses{flex-direction: column; align-items: center; justify-content: center;}
+.course{width: 90%; margin: 0 auto; flex: none;}
+.hero-image{margin: 0 auto;}
 .aboutSection{padding: 20px;}
 .aboutSection img{margin-left: auto;margin-right: auto;}
 .aboutSection{margin: 20px auto;gap: 30px;}
@@ -1050,8 +1078,17 @@ nav ul.active{display:flex; z-index: 9999;}
 .cta-section{flex-direction: column; align-items:flex-start ;}
 .cta-text{flex: auto;}
 .priceSection .container{flex-direction: column; gap: 20px;}
+.priceSection{padding: 40px 16px;}
+.pricing-card{width: 100%; max-width: 320px; margin: 0 auto;}
+.course-card{width: 100%; max-width: 350px;}
 .testimonialSection{padding: 20px;}
 .testimonial{flex: 0 0 calc(100% - 20px);}
+.grade-badge{ padding: 6px 8px; }
+.grade-badge-header{ font-size: 8.5px; margin-bottom: 4px; }
+.grade-list{ gap: 6px; }
+.grade-list li{ padding-right: 6px; }
+.grade-list li span{ font-size: 7px; }
+.grade-list li strong{ font-size: 10px; }
 
 }
 @media (max-width: 1024px) {
