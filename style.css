@@ -773,7 +773,12 @@ text-align: center;}
     box-shadow : 0.3s ease ;
     
 }
-
+  .pending-card .commonBtn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #fff;
+  }
 .pricing-card:hover{
     transform:scale(1.05) ;
     box-shadow: 0 8px 30px rgba(128, 0, 225, 0.3) ;
