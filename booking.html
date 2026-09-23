@@ -240,6 +240,7 @@
      <select class="paymentMethod" name="paymentMethod" required>
         <option value="">Select one</option>
         <option value="BaridiMob">BaridiMob transfer</option>
+        <option value="CCP">CCP transfer</option>
         <option value="In person">Paying in person / cash</option>
       </select>
 
@@ -251,7 +252,19 @@
           <p>Then enter your transfer reference below.</p>
         </div>
         <label>BaridiMob transfer reference / details</label>
-        <input type="text" name="reference" placeholder="e.g. transaction ID or sender name">
+        <input type="text" class="baridiReference" name="reference" placeholder="e.g. transaction ID or sender name" disabled>
+      </div>
+
+      <div class="ccpBlock payment-block">
+        <div class="payment-info">
+          <strong>To pay via CCP:</strong>
+          <p>CCP number: 42965271</p>
+          <p>Clé: 79</p>
+          <p>Name on account: Nor El Yaquin Meriem Doum</p>
+          <p>Then enter your transfer reference below.</p>
+        </div>
+        <label>CCP transfer reference / details</label>
+        <input type="text" class="ccpReference" name="reference" placeholder="e.g. receipt number or sender name" disabled>
       </div>
 
       <div class="meetingBlock payment-block">
@@ -362,7 +375,10 @@
   const form = document.querySelector(".bookingForm");
   const paymentSelect = form.querySelector(".paymentMethod");
   const baridiBlock = form.querySelector(".baridiBlock");
+  const ccpBlock = form.querySelector(".ccpBlock");
   const meetingBlock = form.querySelector(".meetingBlock");
+  const baridiReference = form.querySelector(".baridiReference");
+  const ccpReference = form.querySelector(".ccpReference");
   const messageEl = form.querySelector(".message");
   const submitBtn = form.querySelector(".submitBtn");
   const passwordInput = document.getElementById("password");
@@ -370,10 +386,17 @@
 
   paymentSelect.addEventListener("change", () => {
     const isBaridi = paymentSelect.value === "BaridiMob";
+    const isCcp = paymentSelect.value === "CCP";
     const isInPerson = paymentSelect.value === "In person";
 
     baridiBlock.classList.toggle("active", isBaridi);
+    ccpBlock.classList.toggle("active", isCcp);
     meetingBlock.classList.toggle("active", isInPerson);
+
+    // Both reference inputs share name="reference", so only the visible one
+    // is enabled. Disabled inputs are left out of the submitted form data.
+    baridiReference.disabled = !isBaridi;
+    ccpReference.disabled = !isCcp;
 
     form.querySelector(".meetingDate").required = isInPerson;
     form.querySelector(".meetingTimeOnly").required = isInPerson;
@@ -496,10 +519,6 @@
       submitBtn.disabled = false;
     }
   });
-</script>
-
-</body>
-</html>
 </script>
 
 </body>
