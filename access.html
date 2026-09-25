@@ -144,8 +144,8 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
   }
 
   // Shows the "please verify your email" message with a resend button.
-  // Only reached AFTER we already know the account has a confirmed tier —
-  // unpaid accounts never hit this, they go straight to the payment message.
+  // Reached only for accounts the BACKEND confirms are approved but not
+  // yet verified — random unapproved visitors never see this message.
   function showVerifyEmailMessage(user) {
     messageEl.innerHTML =
       'Please verify your email before continuing. We sent a confirmation link to <strong>' +
@@ -180,23 +180,27 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
       const response = await fetch(url, { cache: "no-store" });
       const data = await response.json();
 
-      if (data.tier) {
-        // Approved for at least one plan.
-        // Refresh the user's verification status from the server before
-        // trusting the locally cached emailVerified flag.
+      // The backend now decides: it only sends emailVerified: false for
+      // accounts that ARE approved but haven't clicked the verify link yet.
+      // Unapproved accounts get emailVerified: true (irrelevant for them)
+      // and tier: null, so they fall straight into the payment message below.
+      if (data.emailVerified === false) {
+        // Refresh local status in case they verified in another tab right
+        // before this check ran, then re-check once more with a fresh token.
         await auth.currentUser.reload();
-
-        if (!auth.currentUser.emailVerified) {
-          showVerifyEmailMessage(auth.currentUser);
-          return;
+        if (auth.currentUser.emailVerified) {
+          return checkApprovalAndRedirect();
         }
+        showVerifyEmailMessage(auth.currentUser);
+        return;
+      }
 
-        // Verified and approved — send them straight back
-        // to whichever page they were trying to reach.
+      if (data.tier) {
+        // Verified (confirmed by the backend) and approved — send them
+        // straight back to whichever page they were trying to reach.
         window.location.href = redirectTarget;
       } else {
-        // Logged in fine, but no confirmed payment yet.
-        // Verification status doesn't matter here — same message either way.
+        // No confirmed payment for this account.
         messageEl.innerHTML =
           'No confirmed payment found for this account yet. ' +
           '<a href="booking.html">Fill in the booking form</a> to get started, ' +
@@ -240,9 +244,17 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
           await createUserWithEmailAndPassword(auth, email, password);
           // Fire off the verification email right away for new accounts.
           try {
+            await auth.currentUser.getIdToken(true);
             await sendEmailVerification(auth.currentUser);
           } catch (sendErr) {
-            // Non-fatal — they can still resend from the verify-email message later.
+            console.error("First verification email attempt failed:", sendErr);
+            try {
+              await new Promise(resolve => setTimeout(resolve, 1500));
+              await sendEmailVerification(auth.currentUser);
+            } catch (retryErr) {
+              console.error("Retry also failed:", retryErr);
+              // Still non-fatal — they can resend manually from the next screen.
+            }
           }
           await checkApprovalAndRedirect();
         } catch (signupError) {
@@ -267,6 +279,10 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
       }
     }
   });
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
