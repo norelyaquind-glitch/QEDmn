@@ -590,13 +590,19 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
       return;
     }
 
-   try {
+try {
   const idToken = await user.getIdToken();
   const url = `${CONTENT_ENDPOINT}?idToken=${encodeURIComponent(idToken)}&t=${Date.now()}`;
   const response = await fetch(url, { cache: "no-store" });
   const data = await response.json();
 
   stopQuoteRotation();
+
+  if (data.emailVerified === false) {
+    const redirectTarget = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+    window.location.href = "access.html?redirect=" + redirectTarget;
+    return;
+  }
 
   if (data.tier) {
     cacheTier(user.email, data.tier);
