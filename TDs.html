@@ -722,10 +722,17 @@ try {
 
   stopQuoteRotation();
 
+  if (data.emailVerified === false) {
+    const redirectTarget = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+    window.location.href = "access.html?redirect=" + redirectTarget;
+    return;
+  }
+
   if (data.tier) {
     cacheTier(user.email, data.tier);
   }
   showForTier(data.tier);
+
 } catch (error) {
   stopQuoteRotation();
   document.getElementById("checking").textContent =
@@ -733,10 +740,6 @@ try {
 }
   });
 
-  document.getElementById("logoutBtn").addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "access.html";
-  });
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
