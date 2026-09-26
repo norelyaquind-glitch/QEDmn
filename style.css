@@ -1392,3 +1392,109 @@ body {
         flex: 0 0 85%;
     }
 }
+
+/* ===================================================================
+   Free chapter trial card — added on top of the existing course-card
+   styling. Scoped so it never touches the syllabus section's .courses.
+=================================================================== */
+
+.course-card-free{
+    position: relative;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 0 0 4px rgba(255,123,0,0.08), 0 0 10px rgba(0,0,0,0.05);
+}
+.free-badge{
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--secondary-color);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    z-index: 3;
+    box-shadow: 0 4px 10px rgba(255,123,0,0.35);
+}
+.commonBtn-free{
+    background: linear-gradient(349deg, #ff9d3d, var(--secondary-color));
+    filter: drop-shadow(2px 5px 8px rgba(255,157,61,0.5));
+}
+
+/* Free card has no student counter, so its bottom row only holds the
+   arrow button — push it to the right where the counter used to be. */
+.course-card-free .bottom{
+    justify-content: flex-end;
+}
+.commonBtn-free:hover{
+    background: linear-gradient(349deg, #ffb066, #ff7b00);
+    color: #fff;
+}
+/* Course section layout: all 4 cards (free trial + Lessons + TD series +
+   Midterms & finals) fit on a single row. */
+
+.course-section .courses{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 18px;
+}
+
+.course-section .course-card{
+    width: 260px;
+    padding: 16px;
+}
+
+.course-section .course-img-wrap img{
+    height: 145px;
+}
+
+.course-section .course-img-title{
+    font-size: 15px;
+    left: 12px;
+    bottom: 10px;
+}
+
+.course-section .lesson{
+    font-size: 11px;
+    margin: 10px 0 4px;
+}
+
+.course-section .courseDesc{
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+/* Smaller circular arrow buttons for every card in this section,
+   including the free card's. */
+.course-section .bottom .commonBtn{
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+@media (max-width: 992px){
+    .course-section .courses{
+        flex-wrap: wrap;
+    }
+    .course-section .course-card{
+        width: 280px;
+    }
+    .course-section .course-img-wrap img{
+        height: 160px;
+    }
+    .course-section .course-img-title{
+        font-size: 16px;
+    }
+    .course-section .lesson{
+        font-size: 12px;
+    }
+    .course-section .courseDesc{
+        font-size: 14px;
+        line-height: 1.5;
+    }
+}
