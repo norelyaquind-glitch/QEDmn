@@ -44,13 +44,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const cards = document.querySelectorAll(".course-card");
       const counts = [data.courses, data.td, data.exams];
 
-      cards.forEach((card, i) => {
-        const studentEl = card.querySelector(".students i");
-        if (studentEl && counts[i] !== undefined) {
-          studentEl.textContent = `${counts[i]} Student`;
-        }
-      });
+     const countMap = {
+  lessons: data.courses,  // anyone on any plan
+  td: data.td,            // Standard + Premium
+  exams: data.exams       // Premium only
+};
 
+document.querySelectorAll(".course-card[data-count-key]").forEach(card => {
+  const key = card.dataset.countKey;
+  const studentEl = card.querySelector(".students i");
+  if (studentEl && countMap[key] !== undefined) {
+    studentEl.textContent = `${countMap[key]} Student`;
+  }
+});
       // Only re-animate if the real number differs from what we just showed
       if (data.courses !== startingCount) {
         animateCounter('studentCount', data.courses, 50);
