@@ -41,22 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       if (data.error) return;
 
-      const cards = document.querySelectorAll(".course-card");
-      const counts = [data.courses, data.td, data.exams];
+      // Map each course card to its correct count by key, not by position.
+      // lessons = students on ANY plan, td = Standard + Premium, exams = Premium only
+      const countMap = {
+        lessons: data.courses,
+        td: data.td,
+        exams: data.exams
+      };
 
-     const countMap = {
-  lessons: data.courses,  // anyone on any plan
-  td: data.td,            // Standard + Premium
-  exams: data.exams       // Premium only
-};
+      document.querySelectorAll(".course-card[data-count-key]").forEach(card => {
+        const key = card.dataset.countKey;
+        const studentEl = card.querySelector(".students i");
+        if (studentEl && countMap[key] !== undefined) {
+          studentEl.textContent = `${countMap[key]} Student`;
+        }
+      });
 
-document.querySelectorAll(".course-card[data-count-key]").forEach(card => {
-  const key = card.dataset.countKey;
-  const studentEl = card.querySelector(".students i");
-  if (studentEl && countMap[key] !== undefined) {
-    studentEl.textContent = `${countMap[key]} Student`;
-  }
-});
       // Only re-animate if the real number differs from what we just showed
       if (data.courses !== startingCount) {
         animateCounter('studentCount', data.courses, 50);
@@ -179,6 +179,5 @@ if (testimonialWrapper) {
         }
     }, { passive: false });
 }
-
 
 
