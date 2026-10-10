@@ -299,13 +299,13 @@
       </div>
       <p style="margin: 2px 0 0 36px; font-size: 12.5px; color: #888;">Used to check your booking status and log in later.</p>
 
-      <label>Email</label>
-      <input type="email" name="email" id="email" placeholder="name@example.com" required>
-      <p class="field-hint">Must be a valid email containing @.</p>
+      <label>School email</label>
+      <input type="email" name="email" id="email" placeholder="firstname.familyname@your-school.edu.dz" required>
+      <p class="field-hint">Use your school email: firstname.familyname@your-school.edu.dz</p>
 
       <label>Create a password</label>
       <input type="password" name="password" id="password" minlength="6" required>
-      <p class="field-hint">6+ characters. You'll use this same password to log in and access your courses.</p>
+      <p class="field-hint">6+ characters, with at least 1 capital letter and 1 number. You'll use this same password to log in and access your courses.</p>
 
       <label>Confirm password</label>
       <input type="password" id="confirmPassword" minlength="6" required>
@@ -346,6 +346,18 @@
     Standard: { price: "2500DA", period: "Semester" },
     Premium:  { price: "3000DA", period: "Semester" }
   };
+
+  // --- Validation rules ---
+  // School email: firstname.familyname@<anything>.edu.dz
+  // (covers g.enp.edu.dz, ensia.edu.dz, etc.)
+  // Keep this in sync with the regex in the Apps Script doPost().
+  const NAME_PART = "[a-z]+(?:[-_][a-z]+)*";
+  const SCHOOL_EMAIL_REGEX = new RegExp(
+    "^" + NAME_PART + "\\." + NAME_PART + "[0-9]*@(?:[a-z0-9-]+\\.)+edu\\.dz$",
+    "i"
+  );
+  // Password: 6+ characters, at least 1 capital letter and 1 number
+  const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[0-9]).{6,}$/;
 
   const planField = document.querySelector(".planField");
   const planNameEl = document.querySelector(".planName");
@@ -420,14 +432,14 @@
       return;
     }
 
-    if (!email.includes("@")) {
-      messageEl.textContent = "Please enter a valid email address (must contain @).";
+    if (!SCHOOL_EMAIL_REGEX.test(email)) {
+      messageEl.textContent = "Please use your school email (firstname.familyname@your-school.edu.dz).";
       messageEl.className = "message error";
       return;
     }
 
-    if (password.length < 6) {
-      messageEl.textContent = "Password must be at least 6 characters.";
+    if (!PASSWORD_REGEX.test(password)) {
+      messageEl.textContent = "Password must be at least 6 characters and contain at least 1 capital letter and 1 number.";
       messageEl.className = "message error";
       return;
     }
