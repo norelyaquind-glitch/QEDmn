@@ -166,7 +166,7 @@ nav li a:hover{
 .headingHeroHeading span{color: var(--secondary-color);
 font-family:'Poppins' ,sans-serif; ;}
 #courseCount,
-#studentCount{
+#tdCount{
     font-size: 2rem;
     font-weight: bold;
 }
@@ -196,6 +196,25 @@ font-family:'Poppins' ,sans-serif; ;}
     left: 5px;
     
     
+}
+/* Free chapter button: gentle pulse */
+.pulse-btn{
+    animation: btnPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes btnPulse{
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.06); }
+}
+
+/* Stop pulsing when the user hovers, so it doesn't fight the hover effect */
+.pulse-btn:hover{
+    animation-play-state: paused;
+}
+
+/* Respect people who turned off animations in their system */
+@media (prefers-reduced-motion: reduce){
+    .pulse-btn{ animation: none; }
 }
 
 /* Grade badges — small, professional chips showing DMN's actual grades,
@@ -1496,5 +1515,123 @@ body {
     .course-section .courseDesc{
         font-size: 14px;
         line-height: 1.5;
+    }
+}
+
+
+/* ===================================================================
+   NEW — chapter pricing (compact plan cards), chapter cards, and the
+   single testimonial. Same design as before, just smaller.
+=================================================================== */
+
+/* ---------- Chapter pricing (compact cards) ---------- */
+.plans-intro{
+    color: var(--text-light);
+    margin: -5px auto 30px;
+    max-width: 600px;
+}
+.plans-grid{
+    max-width: 860px;           /* 3 cards per row */
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+}
+.plans-grid .pricing-card{
+    width: 260px;
+    padding: 22px 16px;
+    border-radius: 18px;
+    position: relative;
+}
+.plans-grid .plan-title{
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+.plans-grid .plan-description{
+    width: 190px;
+    font-size: 0.8rem;
+    margin: 12px auto;
+    padding-bottom: 12px;
+}
+.plans-grid .plan-features{
+    margin: 10px 12px;
+}
+.plans-grid .plan-features li{
+    font-size: 13px;
+    margin: 7px 0;
+}
+.plans-grid .plan-features li::before{
+    font-size: 17px;
+    margin-right: 8px;
+}
+.plans-grid .price{
+    font-size: 1.6rem;
+}
+.plans-grid .price .commonBtn{
+    padding: 11px 26px;
+    font-size: 14px;
+}
+.price-unit{
+    font-size: small;
+    font-weight: normal;
+}
+.plan-tag{
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--secondary-color);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(255,123,0,0.35);
+}
+.plans-help{
+    margin-top: 32px;
+    font-size: 14px;
+    color: var(--text-light);
+}
+.plans-help a{
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+.plans-help a:hover{
+    color: var(--secondary-color);
+}
+
+/* ---------- Chapter course cards: arrow on the right ---------- */
+.course-section .bottom{
+    justify-content: flex-end;
+}
+
+/* ---------- Single testimonial ---------- */
+.testimonial-wrapper{
+    justify-content: center;
+}
+.testimonial-featured{
+    flex: 0 0 420px;
+    max-width: 100%;
+    border: 1.5px solid var(--primary-color);
+}
+.testimonial-screenshot{
+    width: 100%;
+    display: block;
+    margin: 6px 0 12px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+@media (max-width: 768px){
+    .plans-grid .pricing-card{
+        width: 100%;
+        max-width: 280px;
+    }
+    .testimonial-featured{
+        flex: 0 0 100%;
     }
 }
