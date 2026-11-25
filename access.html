@@ -124,7 +124,7 @@
     sendPasswordResetEmail,
     sendEmailVerification
   } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { buildCheckUrl } from "./device.js";
+
 
   // Same Apps Script endpoint used on lessons.html / TDs.html / Exams.html
 const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec";
@@ -177,7 +177,7 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
 
     try {
       const idToken = await auth.currentUser.getIdToken();
-      const url = buildCheckUrl(CONTENT_ENDPOINT, idToken);
+    const url = CONTENT_ENDPOINT + "?idToken=" + encodeURIComponent(idToken);
       const response = await fetch(url, { cache: "no-store" });
       const data = await response.json();
 
@@ -195,13 +195,7 @@ const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukg
         showVerifyEmailMessage(auth.currentUser);
         return;
       }
-      if (data.deviceLimit) {
-        messageEl.textContent =
-          "This account is already used on 2 devices. If you changed your phone or computer, contact me to reset your devices.";
-        messageEl.className = "error";
-        enterBtn.disabled = false;
-        return;
-      }
+     
 
       if (data.tier) {
         // Verified (confirmed by the backend) and approved — send them
