@@ -146,7 +146,17 @@
 </style>
 </head>
 <body>
-
+<script>
+  setTimeout(function () {
+    if (!window.__qedLoaded) {
+      document.getElementById("checking").style.display = "none";
+      document.getElementById("pending").style.display = "block";
+      document.getElementById("pendingTitle").textContent = "Couldn't load the page";
+      document.getElementById("pendingText").innerHTML =
+        "Please <a href='javascript:location.reload()'>refresh</a> or <a href='access.html'>log in</a>.";
+    }
+  }, 8000);
+</script>
 <div id="checking">
   <div class="checking-card">
     <img class="checking-logo" src="signature_icon_512px (1).png" alt="QEDmn logo">
