@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QED</title>
     <link rel="stylesheet" href="style.css">
+    <!-- NEW: chapter pricing + featured testimonial styles (loaded after style.css, so your original CSS stays untouched) -->
+    <link rel="stylesheet" href="plans.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -67,15 +69,17 @@ body ::-webkit-scrollbar-thumb{
             <h1 class="headingHeroHeading">Struggling with  <br> Algebra 1 ? <br> <span>Not anymore !</span></h1>
             <p>QEDmn offers exclusive video content in which DMN explains Algebra 1 lessons for ST students, provides complete TD series solutions, and reviews midterms and finals, designed to help 1CP students build genuine understanding rather than rely on memorization.</p>
             <div class="stats">
-                <a href="contact.html" class="commonBtn">Contact us</a>
+                <!-- CHANGED: "Contact us" -> free chapter on YouTube. Replace the link below with your playlist link. -->
+               <a href="https://www.youtube.com/@QEDmnalgebra" target="_blank" rel="noopener" class="commonBtn pulse-btn">Free chapter</a>
                 <div>
                     <span id="courseCount">0 </span> + <br>
                     <span class="counterText">Algebra 1 Lessons</span>
                 </div>
+                <!-- CHANGED: student counter -> solved TDs (static, no id so custom.js won't overwrite it) -->
                 <div>
-                    <span id="studentCount" >0 </span> + <br>
-                    <span class="counterText">Our Students</span>
-                    </div>
+                    <span id="tdCount" >40 </span> + <br>
+                    <span class="counterText">Solved Esercises</span>
+                </div>
             </div>
         </div> 
         <div class="hero-image" data-aos="fade-left">
@@ -130,13 +134,6 @@ body ::-webkit-scrollbar-thumb{
             <hr>
         </div>
         
-        <!-- <div>
-            <button class="commonBtn" style="height: 45px; margin-top:65px ;"> 
-            <i class="fa-solid fa-arrow-right"></i></button>
-            <br> <br> -->
-            <!-- <span class="BrowseAll">Browse All</span> -->
-            
-        <!-- </div> -->
         </div>
     </section>
 
@@ -217,77 +214,65 @@ body ::-webkit-scrollbar-thumb{
     </div>
 </section>
 
-<!-- Courses -->
+<!-- Courses (one card per chapter) -->
 <section class="course-section" id="courses"> 
-    <h1 class="headingSyllabus">You can understand anything <br>Explore <span> Featured Course</span></h1>
+    <h1 class="headingSyllabus">You can understand anything <br>Open <span> Your Chapter</span></h1>
     <p class="desc" data-aos="zoom-in">
        No more guessing what's asked. Just clear video lessons that take you from the question straight to QED : Quoi Est Demandé.</p>
 
 <div class="courses" data-aos="fade-right">
 
-<!-- card 0: Free trial -->
-<div class="course-card course-card-free">
-    <span class="free-badge">FREE</span>
+<div class="course-card">
     <div class="course-img-wrap">
-        <img src="Mathematical essentials calculator pencils and compasses on a bright orange background perfect f _ Premium AI-generated image.jpg" alt="Chapter 1 free preview">
-        <span class="course-img-title">Chapter 1</span>
+        <img src="courses.jpg" alt="Sets and Applications">
+        <span class="course-img-title">Sets & Applications</span>
     </div>
-    <p class="lesson">Mathematical Logic — On us</p>
-    <p class="courseDesc">Try QEDmn before you commit. The full first chapter, completely free, so you know exactly what you're getting.</p>
+    <p class="lesson">Lessons + TD videos</p>
+    <p class="courseDesc">Sets, functions, binary relations. Every lesson and every TD exercise explained in video.</p>
     <div class="bottom">
-        <a href="https://drive.google.com/drive/folders/1jjiuYSC6vco9o7Vp3DVpKdP-jldvck1e?usp=sharing"><button class="commonBtn commonBtn-free"><i class="fa-solid fa-arrow-right"></i></button></a>
+        <a href="Sets.html"><button class="commonBtn" aria-label="Open Sets and Applications"><i class="fa-solid fa-arrow-right"></i></button></a>
     </div>
 </div>
 
-<!-- card 1 -->
-<div class="course-card" data-count-key="lessons">
+<div class="course-card">
     <div class="course-img-wrap">
-        <img src="courses.jpg" alt="courses">
-        <span class="course-img-title">Lessons</span>
+        <img src="TD.jpg" alt="Algebraic Structures">
+        <span class="course-img-title">Algebraic Structures</span>
     </div>
-    <p class="lesson">25 Lessons</p>
-    <p class="courseDesc">Delivered in English, with Arabic clarifications where needed for full clarity. Explained in videos.</p>
+    <p class="lesson">Lessons + TD videos</p>
+    <p class="courseDesc">Groups, rings and fields, with proofs and detailed TD solutions. Explained in videos.</p>
     <div class="bottom">
-        <div class="students">
-            <i class="fa-solid fa-users">-- Student</i>
-        </div>
-        <a href="lessons.html"><button class="commonBtn"><i class="fa-solid fa-arrow-right"></i></button></a>
+        <a href="Algebraic.html"><button class="commonBtn" aria-label="Open Algebraic Structures"><i class="fa-solid fa-arrow-right"></i></button></a>
     </div>
 </div>
 
-<!-- card 2 -->
-<div class="course-card" data-count-key="td">
+<div class="course-card">
     <div class="course-img-wrap">
-        <img src="TD.jpg" alt="courses">
-        <span class="course-img-title">TD series</span>
+        <img src="Exams.jpg" alt="Polynomials and Rational Fractions">
+        <span class="course-img-title">Polynomials & Fractions</span>
     </div>
-    <p class="lesson">40 Exercises</p>
-    <p class="courseDesc">Detailed TD solutions to help you practice the way real exams demand. Explained in videos.</p>
+    <p class="lesson">Lessons + TD videos</p>
+    <p class="courseDesc">Polynomials and rational fractions, step by step, with the full TD series solved.</p>
     <div class="bottom">
-        <div class="students">
-            <i class="fa-solid fa-users">-- Student</i>
-        </div>
-        <a href="TDs.html"><button class="commonBtn"><i class="fa-solid fa-arrow-right"></i></button></a>
+        <a href="Polynomials.html"><button class="commonBtn" aria-label="Open Polynomials and Fractions"><i class="fa-solid fa-arrow-right"></i></button></a>
     </div>
 </div>
 
-<!-- card 3 -->
-<div class="course-card" data-count-key="exams">
+<div class="course-card">
     <div class="course-img-wrap">
-        <img src="Exams.jpg" alt="courses">
+         <img src="Mathematical essentials calculator pencils and compasses on a bright orange background perfect f _ Premium AI-generated image.jpg" alt="Midterms and finals">
+        
         <span class="course-img-title">Midterms & finals</span>
     </div>
-    <p class="lesson">4 Exams</p>
+    <p class="lesson">Exam Sprint</p>
     <p class="courseDesc">Practice with real past exams, so you know exactly what to expect. Explained in videos.</p>
     <div class="bottom">
-        <div class="students">
-            <i class="fa-solid fa-users">-- Student</i>
-        </div>
-        <a href="Exams.html"><button class="commonBtn"><i class="fa-solid fa-arrow-right"></i></button></a>
+        <a href="Exams.html"><button class="commonBtn" aria-label="Open Midterms and finals"><i class="fa-solid fa-arrow-right"></i></button></a>
     </div>
 </div>
 
 </div>
+<p class="plans-help">Already joined? <a href="access.html">Log in</a> and open your chapter. Not yet? <a href="#join us">See the plans</a>.</p>
 </section>
 
 <!-- cta section -->
@@ -300,148 +285,120 @@ body ::-webkit-scrollbar-thumb{
         <a href="#join us"><button class="cta-button" data-aos="fade-left">UPGRADE</button></a>
     </section>
 
-<!-- price section -->
+<!-- price section (CHANGED: chapter-based pricing) -->
 <section class="priceSection" id="join us">
     <small data-aos="zoom-in">EXCLUSIVE PLANS</small>
-    <div class="headingHeroHeading" data-aos="zoom-in">For You <span>To Choose</span></div>
-    <div class="container">
-        <div class="pricing-card" data-aos="fade-right">
-            <div class="plan-title">Basic </div>
-            <div class="plan-description">Every chapter, explained on video.</div>
-            <ul class="plan-features"> 
-                <li>All 4 chapters on video. </li>
-                <li>Examples & theorem proofs. </li>
-                <li>English video explanation.</li>
-                <li>Arabic clarification.</li>
+    <div class="headingHeroHeading" data-aos="zoom-in">Pick Your <span>Chapters</span></div>
+    <p class="plans-intro">Logic is free. Buy only what you need, or take the full pass. One payment per semester.</p>
+
+    <div class="plans-grid">
+
+        <div class="pricing-card" data-aos="fade-up">
+            <div class="plan-title">Sets & Applications</div>
+            <div class="plan-description">Lessons + full TD videos</div>
+            <ul class="plan-features">
+                 <li>Sets: definitions & properties.</li>
+                <li>Functions definitions</li>
+                <li>Binary relations.</li>
+                <li>Lessons + full TD on video.</li>
             </ul>
-            <div class="price">1500DA <span style="font-size: small ; font-weight: normal;"> Semester</span><br> <br>
-          <a href="booking.html#Basic"><button class="commonBtn">UPGRADE</button></a>
-        </div>
+            <div class="price">1200DA <span class="price-unit">Chapter</span><br> <br>
+                <a href="booking.html?plan=SETS" class="commonBtn">JOIN</a>
+            </div>
         </div>
 
+        <div class="pricing-card" data-aos="fade-up">
+            <div class="plan-title">Algebraic Structures</div>
+            <div class="plan-description">Lessons + full TD videos</div>
+            <ul class="plan-features">
+               <li>Groups: definitions & properties.</li>
+                <li>Rings definitions</li>
+                <li>Fields definitions.</li>
+                <li>Lessons + full TD on video.</li>
+            </ul>
+            <div class="price">1200DA <span class="price-unit">Chapter</span><br> <br>
+                <a href="booking.html?plan=ALGSTRUCT" class="commonBtn">JOIN</a>
+            </div>
+        </div>
+
+        <div class="pricing-card" data-aos="fade-up">
+            <div class="plan-title">Polynomials & Fractions</div>
+            <div class="plan-description">Lessons + full TD videos</div>
+            <ul class="plan-features">
+                <li>Polynomials: Def & Properties.</li>
+                <li>Rational fractions.</li>
+                <li>Decomposition of R- Fractions</li>
+                <li>Lessons + full TD on video.</li>
+            </ul>
+            <div class="price">700DA <span class="price-unit">Chapter</span><br> <br>
+                <a href="booking.html?plan=POLY" class="commonBtn">JOIN</a>
+            </div>
+        </div>
+
+        <div class="pricing-card" data-aos="fade-down">
+            <div class="plan-title">Exam Sprint</div>
+            <div class="plan-description">Get ready for the final</div>
+            <ul class="plan-features">
+                <li>Live exam-prep meetings.</li>
+                <li>Access to the Telegram group.</li>
+                <li>2 ENP exams, fully solved.</li>
+                <li>Tips to avoid losing points.</li>
+            </ul>
+            <div class="price">1000DA <span class="price-unit">Semester</span><br> <br>
+                <a href="booking.html?plan=EXAMS" class="commonBtn">JOIN</a>
+            </div>
+        </div>
+
+        <div class="pricing-card" data-aos="fade-down">
+            <div class="plan-title">Hard-Chapters Duo</div>
+            <div class="plan-description">The two chapters students find hardest</div>
+            <ul class="plan-features">
+                <li>Sets & Applications + Algebraic Structures.</li>
+                <li>All lessons on video.</li>
+                <li>All TD series solved.</li>
+                <li>Save 400DA vs separate.</li>
+            </ul>
+            <div class="price">2000DA <span class="price-unit">Semester</span><br> <br>
+                <a href="booking.html?plan=DUO" class="commonBtn">JOIN</a>
+            </div>
+        </div>
 
         <div class="pricing-card featured" data-aos="fade-down">
-            <div class="plan-title">Standard </div>
-            <div class="plan-description">Practice with full TD solutions & videos </div>
-            <ul class="plan-features"> 
-                <li>Everything in Basic.</li>
-                <li>All ENP TD exercises solved. </li>
-                <li>Video Detailed explanations.</li>
-                <li>Lesson reminders when needed.</li>
-            </ul>
-            <div class="price">2500DA <span style="font-size: small ; font-weight: normal;"> Semester</span><br> <br>
-            <a href="booking.html#Standard"><button class="commonBtn">UPGRADE</button></a>
-        </div>
-        </div>
-
-        <div class="pricing-card " data-aos="fade-left">
-            <div class="plan-title">Premium </div>
+            <div class="plan-tag">BEST VALUE</div>
+            <div class="plan-title">Full Semester Pass</div>
             <div class="plan-description">Everything you need to ace your exams</div>
-            <ul class="plan-features"> 
-                <li>Everything in Standard.</li>
-                <li>Midterms & finals on video.</li>
-                <li>Key tips to avoid losing points.</li>
-                <li>Complete exam-ready prep.</li>
+            <ul class="plan-features">
+                <li>All 4 chapters: lessons on video.</li>
+                <li>All TD series, Logic TD included.</li>
+                <li>Exams + Telegram group access.</li>
+                <li>Save 1,100DA vs separate.</li>
             </ul>
-            <div class="price">3000DA <span style="font-size: small ; font-weight: normal;"> Semester</span><br> <br>
-           <a href="booking.html#Premium"><button class="commonBtn">UPGRADE</button></a>
+            <div class="price">3000DA <span class="price-unit">Semester</span><br> <br>
+               <a href="booking.html?plan=FULL" class="commonBtn">JOIN</a>
+            </div>
         </div>
-        </div>
+
     </div>
+
+    <p class="plans-help">Questions before you join?
+        <a href="https://www.instagram.com/qedmnmath/" target="_blank" rel="noopener">Instagram</a> ·
+        <a href="https://t.me/QEDmn" target="_blank" rel="noopener">Telegram</a>
+    </p>
 </section>
-<!-- testimonial section -->
-
-
+<!-- testimonial section (one student message) -->
 <section class="testimonialSection">
-    <small data-aos="zoom-in">Students Testimonial</small>
-    <h2 class="headingDMN">What my <span>Students Are Saying</span></h2>
+    <small data-aos="zoom-in">Student Testimonial</small>
+    <h2 class="headingDMN">What a <span>Student Says</span></h2>
 <div class="testimonial-wrapper">
 
-    <div class="testimonial">
+    <!-- save your screenshot as student-message.jpeg next to this file -->
+    <div class="testimonial testimonial-featured">
         <i class="fa-solid fa-quote-right quote-icon"></i>
-        <div class="header-row">
-            <img src="805884516_1572426487476291_3817967118700948595_n.jpg" class="testimonial-avatar" alt="Leila Doussas">
-            <div class="testimonial-info">
-                <h3>Leila Doussas</h3>
-                <p class="position">Process Engineering & Environment</p>
-                <div class="stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-        <p class="testimonial-text">During my two years in the preparatory cycle, I can honestly say that I had never met someone as good at mathematics, especially algebra, which was one of the most difficult subjects for us at Polytech. Nour was always one of the top students, and she consistently got excellent results, even in Professor Badrane's hardest exams! Whenever I struggled with algebra, I would ask her for help. I still remember how she explained the whole program, the important topics, useful resources, and the professor's way of thinking in just half an hour. For the first time, I actually understood the subject, and thanks to her help, I got a grade that really surprised me. I'm truly grateful for her support.</p>
-        <button class="read-more-btn">Read more</button>
+        <img src="Malak.png" class="testimonial-screenshot" alt="Student message about her Algebra 1 result">
+        <p class="testimonial-text expanded">Algebra 1: <strong>16.5/20</strong>. A student's message after her result.</p>
     </div>
-
-    <div class="testimonial">
-        <i class="fa-solid fa-quote-right quote-icon"></i>
-        <div class="header-row">
-            <img src="photo_2026-09-10_15-55-29.jpg" class="testimonial-avatar" alt="Aymene Djilali">
-            <div class="testimonial-info">
-                <h3>Aymene Djilali</h3>
-                <p class="position">Industrial student at ENP</p>
-                <div class="stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-        <p class="testimonial-text">Doum, One of the best people I've ever met at Polytech, and honestly one of the most dedicated people I've ever seen when it comes to studying, working hard, and doing research. She has skills in mathematics that I genuinely believe nobody else has. She really knows how to work with math, understand it, and enjoy it because she truly loves it. She actually taught me for a few days during my first year, in Algebra 1 and Analysis, and I was genuinely amazed by how a student could have such a deep understanding and such an incredible ability to get to the core of a concept and explain it in a way that even some professors couldn't. Believe me, she is one of the best sources you can have. You can truly rely on her, and honestly, I'm jealous of you guys because you have Doum teaching you.</p>
-        <button class="read-more-btn">Read more</button>
-    </div>
- <div class="testimonial">
-        <i class="fa-solid fa-quote-right quote-icon"></i>
-        <div class="header-row">
-            <img src="nadine.jpg" class="testimonial-avatar" alt="Leila Doussas">
-            <div class="testimonial-info">
-                <h3>Nadine Driss</h3>
-                <p class="position">Dtata Science & AI student at ENP</p>
-                <div class="stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-        <p class="testimonial-text"> She’s honestly one of the people who made me feel like math can actually be easy when it’s explained the right way. I always liked the way she explained things because she didn’t just give us the answer, she made sure we understood where it came from.
-
-She’s really good at explaining, especially when a topic seems complicated at first. I’m really happy that she decided to create QEDmn, because I know how much effort she puts into explaining things, and I think it can really help 1CP students. ❤️</p>
-        <button class="read-more-btn">Read more</button>
-    </div>
-
-    <div class="testimonial">
-        <i class="fa-solid fa-quote-right quote-icon"></i>
-        <div class="header-row">
-            <img src="photo_2026-09-20_21-31-01.jpg" class="testimonial-avatar" alt="Younes Fenish">
-            <div class="testimonial-info">
-                <h3>Younes Fenish</h3>
-                <p class="position">Automation student at ENP</p>
-                <div class="stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-            </div>
-        </div>
-        <p class="testimonial-text">Nour is an exceptionally talented mathematician and one of the most remarkable people I had the opportunity to study with. We spent two years together during the preparatory cycle at ENP, and throughout that time, she consistently stood out through her outstanding performance, especially in mathematics-related subjects.
-
-She always had a strong presence in the classroom and left her own distinctive mark, which constantly motivated me to push myself and give my very best. Beyond her academic excellence, she was always kind enough to help me and explain things whenever I struggled with something.
-
-It was truly a pleasure and an honor to have studied alongside you. I wish you all the success, happiness, and fulfillment in your long and promising journey ahead. May you achieve all the great things you deserve!</p>
-        <button class="read-more-btn">Read more</button>
-    </div>
-    <!-- duplicate this block for testimonial 3 -->
-    <!-- duplicate this block for testimonial 4 -->
 
 </div>
-    
 </section>
 <!-- Footer -->
 <footer class="site-footer">
