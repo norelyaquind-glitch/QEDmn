@@ -23,8 +23,8 @@ function animateCounter(id, target, speed){
         }
     }, speed);
 }
-animateCounter('courseCount' , 65 , 50);
-
+animateCounter('courseCount' , 25 , 50);
+animateCounter('tdCount' , 40 , 50);
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -179,5 +179,6 @@ if (testimonialWrapper) {
         }
     }, { passive: false });
 }
+
 
 
