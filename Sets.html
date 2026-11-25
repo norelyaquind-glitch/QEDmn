@@ -396,33 +396,59 @@
 
   startQuoteRotation();
 
-  // ---------- Main flow ----------
+   // ---------- Main flow ----------
+  window.__qedLoaded = true;
+  let finished = false;
+  function done() { finished = true; stopQuoteRotation(); window.clearTimeout(safety); }
+
+  function showProblem(title, html) {
+    document.getElementById("checking").style.display = "none";
+    document.getElementById("pendingTitle").textContent = title;
+    document.getElementById("pendingText").innerHTML = html;
+    document.getElementById("pending").style.display = "block";
+  }
+
+  // Safety net: never stay on "Checking..." for more than 12 seconds
+  const safety = window.setTimeout(() => {
+    if (finished) return;
+    finished = true;
+    stopQuoteRotation();
+    showProblem("This is taking too long",
+      "<a href='javascript:location.reload()'>Try again</a> or <a href='access.html'>log in</a>.");
+  }, 12000);
+
   onAuthStateChanged(auth, async (user) => {
-    if (!user) { stopQuoteRotation(); goToLogin(); return; }
+    // 1) not logged in -> access page
+    if (!user) { done(); goToLogin(); return; }
 
     const cached = getCachedParts(user.email);
-    if (cached) { stopQuoteRotation(); showAccess(cached); return; }
+    if (cached) { done(); showAccess(cached); return; }
 
     try {
       const idToken = await user.getIdToken();
-      const url = buildCheckUrl(CONTENT_ENDPOINT, idToken);
-      const response = await fetch(url, { cache: "no-store" });
+      const ctrl = new AbortController();
+      const t = window.setTimeout(() => ctrl.abort(), 10000);
+      const response = await fetch(buildCheckUrl(CONTENT_ENDPOINT, idToken), { cache: "no-store", signal: ctrl.signal });
+      window.clearTimeout(t);
       const data = await response.json();
+      done();
 
-      stopQuoteRotation();
-
+      // 2) invalid or expired session -> access page
+      if (data.error) { goToLogin(); return; }
       if (data.deviceLimit) { showDeviceLimit(); return; }
       if (data.emailVerified === false) { goToLogin(); return; }
 
+      // 3) logged in but not approved yet
       const parts = resolveParts(data);
       if (!data.tier && parts.length === 0) { showPending(); return; }
 
+      // 4) approved -> show what the plan includes, otherwise "Not included"
       cacheParts(user.email, parts);
       showAccess(parts);
     } catch (error) {
-      stopQuoteRotation();
-      document.getElementById("checking").textContent =
-        "Couldn't check your account status. Please refresh the page.";
+      done();
+      showProblem("Couldn't check your account",
+        "<a href='javascript:location.reload()'>Try again</a> or <a href='access.html'>log in</a>.");
     }
   });
 </script>
