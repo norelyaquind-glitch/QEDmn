@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QEDmn — Sets & Applications</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="icon" type="image/png" href="logo_512x512_v2">
+<style>
+  :root{ --primary-color:#7b5fff; --secondary-color:#ff7b00; --bg-light:#f8f8f8; --text-dark:#222; --text-light:#7c7878; --line:rgba(34,34,34,0.12); }
+  * { box-sizing: border-box; }
+  body { font-family:'Poppins',sans-serif; margin:0; min-height:100vh; background:linear-gradient(180deg,#a196ef1f,#9e92f50f); color:var(--text-dark); }
+  h1,h2,h3 { font-family:'Fraunces',serif; font-weight:500; margin:0; color:var(--text-dark); }
+  a { color:inherit; }
+
+  /* ---------- Checking / pending ---------- */
+  #checking { text-align:center; color:var(--text-light); padding:90px 20px; display:flex; justify-content:center; }
+  .checking-card { position:relative; background:#fff; max-width:420px; width:100%; padding:38px 32px 30px; border-radius:20px; box-shadow:0 25px 60px rgba(75,50,184,0.18); overflow:hidden; }
+  .checking-card::before { content:""; position:absolute; top:0; left:0; right:0; height:5px; background:linear-gradient(90deg,var(--primary-color),var(--secondary-color)); }
+  .checking-logo { height:60px; width:auto; margin:4px auto 20px; display:block; opacity:0.92; }
+  .checking-spinner { width:40px; height:40px; margin:0 auto 20px; border-radius:50%; background:conic-gradient(from 0deg,var(--primary-color),var(--secondary-color),var(--primary-color) 100%); animation:spin 1s linear infinite; -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px)); mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 4px)); }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  #checkingMain { font-size:14.5px; color:var(--text-dark); font-weight:600; letter-spacing:0.01em; margin:0 0 20px; }
+  .quote-box { min-height:90px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:4px; border-top:1px solid var(--line); }
+  .quote-mark { font-family:'Fraunces',serif; font-size:30px; line-height:1; color:var(--primary-color); opacity:0.28; margin-top:16px; margin-bottom:4px; }
+  .quote-fade { opacity:0; transform:translateY(6px); transition:opacity 0.6s ease,transform 0.6s ease; font-style:italic; color:var(--text-light); font-size:14.5px; line-height:1.7; margin:0; }
+  .quote-fade.visible { opacity:1; transform:translateY(0); }
+  .quote-fade[dir="rtl"] { font-style:normal; font-family:'Fraunces',serif; font-size:18px; line-height:2; color:var(--primary-color); }
+  .checking-progress { width:100%; height:4px; background:rgba(123,95,255,0.12); border-radius:999px; overflow:hidden; margin-top:26px; }
+  .checking-progress span { display:block; height:100%; width:35%; background:linear-gradient(90deg,var(--primary-color),var(--secondary-color)); border-radius:999px; animation:progress-sweep 1.6s ease-in-out infinite; }
+  @keyframes progress-sweep { 0% { transform:translateX(-120%); } 100% { transform:translateX(380%); } }
+  .pending-card { background:var(--bg-light); max-width:480px; margin:100px auto 0; padding:32px; border-radius:12px; box-shadow:0 10px 30px rgba(34,34,34,0.15); text-align:center; }
+  .pending-card h2 { font-size:19px; margin-bottom:10px; color:var(--text-dark); }
+  .pending-card p { color:var(--text-light); font-size:14px; line-height:1.6; margin:0; }
+  .pending-card a { color:var(--primary-color); font-weight:500; }
+
+  /* ---------- Header ---------- */
+  header { background:white; padding:16px 32px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 8px rgba(34,34,34,0.08); }
+  .logo-img { height:60px; width:auto; display:block; }
+
+  /* ---------- Main / page head ---------- */
+  main { max-width:980px; margin:0 auto; padding:48px 20px 96px; }
+  .page-head { margin-bottom:40px; }
+  .page-head h1 { font-size:2.2rem; }
+  .tagline { margin:10px 0 0; font-size:1.05rem; color:var(--text-light); }
+  .tagline .accent { color:var(--secondary-color); font-weight:500; }
+  .section-head { margin-bottom:20px; }
+  .section-head h2 { font-size:1.4rem; }
+  .section-head p { margin:6px 0 0; font-size:0.85rem; color:var(--text-light); }
+  .section-divider { border:none; border-top:1px solid var(--line); margin:56px 0 40px; }
+
+  /* ---------- Lesson card ---------- */
+  .lessons-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,300px)); gap:15px; justify-content:start; }
+  .lesson-card { display:flex; flex-direction:column; background:var(--bg-light); border-radius:10px; overflow:hidden; box-shadow:0 6px 20px rgba(34,34,34,0.12); cursor:pointer; transition:transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s ease; }
+  .lesson-card:hover,.lesson-card:focus-within { transform:scale(1.045); box-shadow:0 22px 45px rgba(75,50,184,0.28); z-index:2; }
+  .lesson-card:active { transform:scale(1.06); }
+  .lesson-image { position:relative; aspect-ratio:4/3; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .lesson-image .tag { position:absolute; top:12px; left:12px; font-size:0.62rem; font-weight:600; letter-spacing:0.04em; color:#fff; background:rgba(255,255,255,0.2); padding:4px 10px; border-radius:999px; }
+  .lesson-image svg { width:54%; height:54%; position:relative; transition:transform 0.4s ease; }
+  .lesson-card:hover .lesson-image svg { transform:scale(1.08) translateY(-2px); }
+  .lesson-image--1 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#7b5fff,#5a3fcc); }
+  .lesson-image--2 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#8f76ff,#6947f2); }
+  .lesson-image--3 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#6947f2,#4b32b8); }
+  .lesson-image--4 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#6c63ff,#3f2fa8); }
+  .lesson-body { padding:18px 18px 22px; display:flex; flex-direction:column; gap:10px; flex-grow:1; }
+  .lesson-body h2 { font-size:1.05rem; line-height:1.3; }
+  .lesson-body p { margin:0; color:var(--text-light); font-size:0.88rem; flex-grow:1; }
+  a.watch-link { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; padding:7px 14px 7px 12px; border:1.5px solid var(--secondary-color); border-radius:999px; background:transparent; color:var(--secondary-color); text-decoration:none; font-size:0.8rem; font-weight:600; transition:background 0.15s ease,color 0.15s ease; }
+  a.watch-link:hover { background:var(--secondary-color); color:#fff; }
+  a.watch-link svg { width:10px; height:10px; fill:currentColor; }
+
+  /* ---------- PW / exam cards ---------- */
+  .pw-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,300px)); gap:15px; justify-content:start; }
+  .pw-row--exam { grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); justify-content:stretch; }
+  .pw-card { display:flex; flex-direction:column; background:var(--bg-light); border-radius:10px; overflow:hidden; box-shadow:0 6px 20px rgba(34,34,34,0.12); cursor:pointer; transition:transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s ease; }
+  .pw-card:hover,.pw-card:focus-within { transform:scale(1.045); box-shadow:0 22px 45px rgba(75,50,184,0.28); z-index:2; }
+  .pw-card:active { transform:scale(1.06); }
+  .pw-image { position:relative; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; }
+  .pw-row--exam .pw-image { aspect-ratio:16/9; }
+  .pw-image .tag { position:absolute; top:12px; left:12px; font-size:0.62rem; font-weight:600; letter-spacing:0.04em; color:#fff; background:rgba(255,255,255,0.2); padding:4px 10px; border-radius:999px; }
+  .pw-image .pw-number { font-family:'Fraunces',serif; font-size:3rem; color:#fff; opacity:0.95; transition:transform 0.4s ease; }
+  .pw-row--exam .pw-number { font-size:2.6rem; }
+  .pw-card:hover .pw-number { transform:scale(1.1) translateY(-2px); }
+  .pw-image--1 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#7b5fff,#5a3fcc); }
+  .pw-image--2 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#8f76ff,#6947f2); }
+  .pw-image--3 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#6947f2,#4b32b8); }
+  .pw-image--4 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#6c63ff,#3f2fa8); }
+  .pw-image--5 { background:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.18) 1px,transparent 0) 0 0/16px 16px,linear-gradient(155deg,#a084ff,#7b5fff); }
+  .pw-body { padding:16px 16px 20px; display:flex; flex-direction:column; gap:8px; flex-grow:1; }
+  .pw-card h2 { font-size:1rem; line-height:1.3; }
+  .pw-card p { margin:0; color:var(--text-light); font-size:0.84rem; flex-grow:1; }
+  .pw-card a.pdf-link { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; padding:7px 14px 7px 12px; border:1.5px solid var(--secondary-color); border-radius:999px; background:transparent; color:var(--secondary-color); text-decoration:none; font-size:0.78rem; font-weight:600; transition:background 0.15s ease,color 0.15s ease; }
+  .pw-card a.pdf-link:hover { background:var(--secondary-color); color:#fff; }
+  .pw-card a.pdf-link i { font-size:0.75rem; }
+
+  /* ---------- Link lists (PDF rows) ---------- */
+  .corrections-card { background:var(--bg-light); border-radius:10px; box-shadow:0 6px 20px rgba(34,34,34,0.1); padding:8px 20px; transition:transform 0.3s ease,box-shadow 0.3s ease; }
+  .corrections-card:hover { transform:translateY(-3px); box-shadow:0 16px 32px rgba(34,34,34,0.16); }
+  .link-list { list-style:none; margin:0; padding:0; }
+  .link-list li { border-bottom:1px solid var(--line); }
+  .link-list li:last-child { border-bottom:none; }
+  .link-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 8px; }
+  .link-row .link-label { font-size:0.92rem; font-weight:600; color:var(--text-dark); }
+  .link-row .link-actions { display:flex; align-items:center; gap:8px; }
+  .link-row .link-part { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; text-decoration:none; font-size:0.78rem; font-weight:600; transition:background 0.15s ease,color 0.15s ease; }
+  .link-row .link-part.series { border:1.5px solid var(--primary-color); color:var(--primary-color); background:transparent; }
+  .link-row .link-part.series:hover { background:var(--primary-color); color:#fff; }
+  .link-row .link-part i { flex-shrink:0; font-size:0.85rem; }
+
+  /* ---------- Notice + locked cards ---------- */
+  .notice { display:flex; gap:14px; align-items:flex-start; background:#fff; border-left:4px solid var(--primary-color); border-radius:10px; box-shadow:0 6px 20px rgba(34,34,34,0.08); padding:16px 18px; margin-bottom:36px; }
+  .notice i { color:var(--primary-color); font-size:1.4rem; margin-top:2px; }
+  .notice p { margin:0; font-size:0.9rem; line-height:1.6; color:var(--text-dark); }
+  .notice strong { color:var(--primary-color); }
+  .locked-card { background:var(--bg-light); border:1.5px dashed var(--line); border-radius:10px; padding:18px 20px; color:var(--text-light); font-size:0.9rem; line-height:1.6; }
+  .locked-card strong { color:var(--text-dark); }
+  .locked-card a { color:var(--primary-color); font-weight:600; }
+  a[href="#"].soon-guard { opacity:0.45; pointer-events:none; }
+
+
+  /* ---------- Chapter pages: videos grid + PDF grid ---------- */
+  .media-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .media-grid .lesson-image, .media-grid .pw-image { aspect-ratio:16/10; }
+  .media-grid .lesson-image svg { width:46%; height:46%; }
+  .media-grid .pw-image .pw-number { font-size:3.2rem; }
+  .media-grid .lesson-body, .media-grid .pw-body { padding:18px 18px 22px; }
+  .media-grid .lesson-body h2, .media-grid .pw-card h2 { font-size:1.05rem; }
+  .pdf-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; align-items:start; }
+  .pdf-card h3 { font-size:0.98rem; padding:14px 8px 12px; border-bottom:1px solid var(--line); color:var(--primary-color); }
+  .pdf-card .link-row .link-label { font-size:0.88rem; }
+
+  /* ---------- PDF viewer modal ---------- */
+  #pdfModal { display:none; position:fixed; inset:0; background:rgba(20,15,40,0.82); z-index:999; justify-content:center; align-items:center; padding:20px; }
+  #pdfModal.open { display:flex; }
+  .pdf-modal-box { position:relative; width:100%; max-width:900px; height:90vh; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 25px 70px rgba(0,0,0,0.4); }
+  .pdf-modal-close { position:absolute; top:10px; right:10px; z-index:5; background:#222; color:#fff; border:none; border-radius:999px; width:34px; height:34px; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .pdf-modal-close:hover { background:var(--secondary-color); }
+  #pdfModal iframe { width:100%; height:100%; border:none; }
+
+  @media (max-width:560px) { header { padding:14px 18px; } main { padding:36px 16px 72px; } .page-head h1 { font-size:1.8rem; } }
+</style>
+</head>
+<body>
+
+<div id="checking">
+  <div class="checking-card">
+    <img class="checking-logo" src="signature_icon_512px (1).png" alt="QEDmn logo">
+    <div class="checking-spinner"></div>
+    <p id="checkingMain">Checking your account...</p>
+    <div class="quote-box">
+      <span class="quote-mark">&#10078;</span>
+      <p id="checkingQuote" class="quote-fade"></p>
+    </div>
+    <div class="checking-progress"><span></span></div>
+  </div>
+</div>
+
+<div id="pending" style="display:none;">
+  <div class="pending-card">
+    <h2 id="pendingTitle">Payment not confirmed yet</h2>
+    <p id="pendingText">
+      We don't see a confirmed payment for your account yet.
+      If you already paid via BaridiMob or in person, please allow a little time for confirmation,
+      or make sure you've submitted the <a href="booking.html">booking form</a>.
+    </p>
+  </div>
+</div>
+
+<div id="app" style="display:none;">
+
+  <header>
+    <img class="logo-img" src="signature_icon_512px (1).png" alt="QEDmn logo">
+    <a class="commonBtn" href="index.html">Back Home</a>
+  </header>
+
+  <main>
+
+    <div class="page-head" data-aos="fade-right" data-aos-duration="800">
+      <h1>Sets & Applications</h1>
+      <p class="tagline">Watch it. Solve it. <span class="accent">Sign it: QED.</span></p>
+    </div>
+
+    <!-- ===== VIDEOS: lesson + TD solutions ===== -->
+    <section>
+      <div class="section-head" data-aos="fade-right" data-aos-duration="700">
+        <h2>Videos</h2>
+        <p>Watch the lesson first, then see every TD exercise solved.</p>
+      </div>
+
+      <div class="media-grid">
+        <div class="lesson-card" data-need="lessons:SETS" data-aos="zoom-in" data-aos-duration="700" style="display:none;">
+          <div class="lesson-image lesson-image--2">
+            <span class="tag">Chapter 2</span>
+            <svg viewBox="0 0 100 100" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="38" cy="50" r="26" opacity="0.9"/><circle cx="62" cy="50" r="26" opacity="0.9"/></svg>
+          </div>
+          <div class="lesson-body">
+            <h2>Sets & Applications</h2>
+            <p>Sets, functions and binary relations, explained on video.</p>
+            <a class="watch-link" href="https://drive.google.com/drive/folders/1iQpPUdWAB3uUES2GPcvUkkQ6Hr-Ycw2j?usp=drive_link" target="_blank" rel="noopener"><svg viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11"/></svg> Watch Lesson</a>
+          </div>
+        </div>
+        <div class="pw-card" data-need="td:SETS" data-aos="zoom-in" data-aos-duration="700" style="display:none;">
+          <div class="pw-image pw-image--2"><span class="tag">PW 2</span><span class="pw-number">02</span></div>
+          <div class="pw-body">
+            <h2>Functions</h2>
+            <p>Every exercise solved step by step.</p>
+            <a class="pdf-link" href="https://drive.google.com/drive/folders/1m_dJBfU4WJoE_DWTsaACpTeFC5J5qkI8" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+          </div>
+        </div>
+        <div class="pw-card" data-need="td:SETS" data-aos="zoom-in" data-aos-duration="700" style="display:none;">
+          <div class="pw-image pw-image--3"><span class="tag">PW 3</span><span class="pw-number">03</span></div>
+          <div class="pw-body">
+            <h2>Binary Relations</h2>
+            <p>Every exercise solved step by step.</p>
+            <a class="pdf-link" href="https://drive.google.com/drive/folders/1n2-fXPRTirOFH0BfwkbbWVDMYekwZGAM" target="_blank" rel="noopener"><i class="fa-solid fa-circle-play"></i>Watch Solution</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="locked-card" data-lock="lessons:SETS" style="display:none; margin-top:18px;">
+        <strong>The video lesson for this chapter isn't in your plan.</strong> <a href="index.html#join%20us">See the plans</a>.
+      </div>
+      <div class="locked-card" data-lock="td:SETS" style="display:none; margin-top:18px;">
+        <strong>The TD solutions for this chapter aren't in your plan.</strong> Upgrade to get every exercise solved on video. <a href="index.html#join%20us">See the plans</a>.
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- ===== PDF CONTENT: teachers' chapters + series ===== -->
+    <section>
+      <div class="section-head" data-aos="fade-right" data-aos-duration="700">
+        <h2>PDF Content</h2>
+        <p>The written courses, and the exercise series to try on your own before watching the solutions.</p>
+      </div>
+
+      <div class="pdf-grid">
+        <div class="corrections-card pdf-card" data-need="lessons:SETS" data-aos="fade-right" data-aos-duration="700" style="display:none;">
+          <h3>Lesson Notes</h3>
+          <ul class="link-list"><li class="link-row"><span class="link-label">Mr Amari — Logic, Sets & Relations</span><div class="link-actions"><a class="link-part series" href="Lecture_1_Logic-Set-Relation.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>PDF</a></div></li><li class="link-row"><span class="link-label">Mrs Djelladj — Sets & Applications</span><div class="link-actions"><a class="link-part series" href="Chapter 2 sets and applications suite.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i>PDF</a></div></li></ul>
+        </div>
+        <div class="corrections-card pdf-card" data-need="td:SETS" data-aos="fade-left" data-aos-duration="700" style="display:none;">
+          <h3>PW Series</h3>
+          <ul class="link-list"><li class="link-row"><span class="link-label">Functions</span><div class="link-actions"><a class="link-part series" href="#" onclick="openPdfViewer('serie2 Applications.pdf'); return false;"><i class="fa-solid fa-file-pdf"></i>Series</a></div></li><li class="link-row"><span class="link-label">Binary Relations</span><div class="link-actions"><a class="link-part series" href="#" onclick="openPdfViewer('series3.pdf'); return false;"><i class="fa-solid fa-file-pdf"></i>Series</a></div></li></ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="pdfModal">
+  <div class="pdf-modal-box">
+    <button class="pdf-modal-close" onclick="closePdfViewer()" aria-label="Close">&times;</button>
+    <iframe id="pdfFrame" src=""></iframe>
+  </div>
+</div>
+
+<script>
+  function openPdfViewer(url) {
+    if (!url || url === "#") { alert("PDF not linked yet."); return; }
+    document.getElementById('pdfFrame').src = encodeURI(url) + '#toolbar=0&navpanes=0';
+    document.getElementById('pdfModal').classList.add('open');
+  }
+  function closePdfViewer() {
+    document.getElementById('pdfModal').classList.remove('open');
+    document.getElementById('pdfFrame').src = '';
+  }
+  document.getElementById('pdfModal').addEventListener('click', (e) => { if (e.target.id === 'pdfModal') closePdfViewer(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePdfViewer(); });
+</script>
+
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  import { buildCheckUrl } from "./device.js";
+
+  const CONTENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbwj3smI6BJPukgB_qFQcVVJ5Zl8fS4ra5bYPIvTChAI3LRy7b96O1oYCUz080imiD7pDQ/exec";
+
+  // ---------- What this student can open ----------
+  // The server (doGet) returns `parts`, e.g. ["lessons:SETS","td:SETS","exams"].
+  // Older students (basic / standard / premium) get the same list from the server;
+  // the fallback below only matters if the server is still on the old version.
+  const ALL = ["LOGIC", "SETS", "ALGSTRUCT", "POLY"];
+  function legacyParts(tier) {
+    const lessons = ALL.map(c => "lessons:" + c);
+    const td = ALL.map(c => "td:" + c);
+    if (tier === "basic") return lessons;
+    if (tier === "standard") return [...lessons, ...td];
+    if (tier === "premium") return [...lessons, ...td, "exams"];
+    return [];
+  }
+  function resolveParts(data) {
+    if (Array.isArray(data.parts) && data.parts.length) return data.parts;
+    return legacyParts(data.tier);
+  }
+
+  // ---------- Session cache (10 minutes) so the check doesn't repeat on every page ----------
+  const CACHE_KEY = "qedmn_access_v2";
+  const CACHE_MS = 10 * 60 * 1000;
+  function getCachedParts(email) {
+    try {
+      const raw = sessionStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const c = JSON.parse(raw);
+      if (c.email !== email || !Array.isArray(c.parts) || Date.now() - c.t > CACHE_MS) return null;
+      return c.parts;
+    } catch (e) { return null; }
+  }
+  function cacheParts(email, parts) {
+    try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ email, parts, t: Date.now() })); } catch (e) {}
+  }
+
+  // ---------- Show / hide ----------
+  function showAccess(parts) {
+    document.getElementById("checking").style.display = "none";
+
+    let any = false;
+    document.querySelectorAll("[data-need]").forEach(block => {
+      const ok = parts.includes(block.dataset.need);
+      block.style.display = ok ? "" : "none";
+      if (ok) any = true;
+    });
+    document.querySelectorAll("[data-lock]").forEach(box => {
+      box.style.display = parts.includes(box.dataset.lock) ? "none" : "";
+    });
+
+    if (!any) {
+      document.getElementById("pendingTitle").textContent = "Not included in your plan";
+      document.getElementById("pendingText").innerHTML =
+        "This part isn't included in your current plan. <a href='index.html#join%20us'>See the plans</a> or contact me if you'd like to upgrade.";
+      document.getElementById("pending").style.display = "block";
+      return;
+    }
+    document.getElementById("app").style.display = "block";
+    if (window.AOS) {
+      window.AOS.init({ duration: 700, once: true, offset: 60 });
+      window.setTimeout(() => window.AOS.refresh(), 50);
+    }
+  }
+
+  function showPending() {
+    document.getElementById("checking").style.display = "none";
+    document.getElementById("pending").style.display = "block";
+  }
+
+  function showDeviceLimit() {
+    document.getElementById("checking").style.display = "none";
+    document.getElementById("pendingTitle").textContent = "Device limit reached";
+    document.getElementById("pendingText").textContent =
+      "This account is already used on 2 devices. If you changed your phone or computer, contact me to reset your devices.";
+    document.getElementById("pending").style.display = "block";
+  }
+
+  function goToLogin() {
+    const redirectTarget = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
+    window.location.href = "access.html?redirect=" + redirectTarget;
+  }
+
+  // ---------- Rotating quotes shown while "Checking your account..." ----------
+  const CHECKING_DUAS = [
+    { text: "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً", dir: "rtl", type: "dua" },
+    { text: "رب اشرح لي صدري ويسر لي أمري", dir: "rtl", type: "dua" },
+    { text: "اللهم اجعل هذا العلم حجة لي لا علي، ويسر لي فهمه وارزقني فهم الأنبياء", dir: "rtl", type: "dua" },
+    { text: "من جد وجد، ومن زرع حصد", dir: "rtl", type: "dua" }
+  ];
+  const CHECKING_QUOTES_EN = [
+    { text: "Patience is bitter, but its fruit is sweet.", dir: "ltr", type: "quote" },
+    { text: "The expert in anything was once a beginner.", dir: "ltr", type: "quote" },
+    { text: "Mathematics is not about numbers, equations, or algorithms: it is about understanding.", dir: "ltr", type: "quote" }
+  ];
+  const CHECKING_QUOTES = [...CHECKING_DUAS, ...CHECKING_QUOTES_EN];
+
+  let quoteIndex = 0;
+  let quoteTimer = null;
+  const quoteEl = document.getElementById("checkingQuote");
+
+  function showNextQuote() {
+    if (!quoteEl) return;
+    quoteEl.classList.remove("visible");
+    window.setTimeout(() => {
+      const q = CHECKING_QUOTES[quoteIndex % CHECKING_QUOTES.length];
+      quoteEl.textContent = q.text;
+      quoteEl.setAttribute("dir", q.dir);
+      quoteEl.classList.add("visible");
+      quoteIndex++;
+    }, 350);
+  }
+  function startQuoteRotation() { showNextQuote(); quoteTimer = window.setInterval(showNextQuote, 3200); }
+  function stopQuoteRotation() { if (quoteTimer) { window.clearInterval(quoteTimer); quoteTimer = null; } }
+
+  startQuoteRotation();
+
+  // ---------- Main flow ----------
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) { stopQuoteRotation(); goToLogin(); return; }
+
+    const cached = getCachedParts(user.email);
+    if (cached) { stopQuoteRotation(); showAccess(cached); return; }
+
+    try {
+      const idToken = await user.getIdToken();
+      const url = buildCheckUrl(CONTENT_ENDPOINT, idToken);
+      const response = await fetch(url, { cache: "no-store" });
+      const data = await response.json();
+
+      stopQuoteRotation();
+
+      if (data.deviceLimit) { showDeviceLimit(); return; }
+      if (data.emailVerified === false) { goToLogin(); return; }
+
+      const parts = resolveParts(data);
+      if (!data.tier && parts.length === 0) { showPending(); return; }
+
+      cacheParts(user.email, parts);
+      showAccess(parts);
+    } catch (error) {
+      stopQuoteRotation();
+      document.getElementById("checking").textContent =
+        "Couldn't check your account status. Please refresh the page.";
+    }
+  });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="custom.js"></script>
+</body>
+</html>
