@@ -435,23 +435,6 @@
   // Returns true if the plan code is known and has been applied.
 
 
-  // Fill the picker (only shown when no plan came from the link).
-  PICKABLE.forEach(key => {
-    const opt = document.createElement("option");
-    opt.value = key;
-    opt.textContent = PLANS[key].name + " — " + PLANS[key].price;
-    planPicker.appendChild(opt);
-  });
-  planPicker.addEventListener("change", () => setPlan(planPicker.value));
-
-  // Plan comes from the link the user arrived on, e.g. booking.html#SETS
-  // (this is exactly what the JOIN buttons on the pricing section link to).
-  const hash = decodeURIComponent(window.location.hash.replace("#", ""));
-  if (!setPlan(hash)) {
-    // No (or unknown) plan in the link: let the student pick one.
-    planPicker.style.display = "block";
-  }
-
   // --- Payment method behavior ---
   const form = document.querySelector(".bookingForm");
   const paymentSelect = form.querySelector(".paymentMethod");
